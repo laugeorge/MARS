@@ -1,0 +1,94 @@
+@font-face {
+  font-family: 'agency';
+  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/62921/agency_fb-2.eot'); /* IE9 Compat Modes */
+  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/62921/agency_fb-2.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('https://cors-anywhere.herokuapp.com/https://s3-us-west-2.amazonaws.com/s.cdpn.io/62921/agency_fb-2.woff') format('woff'), /* Modern Browsers */
+       url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/62921/agency_fb-2.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/62921/agency_fb-2.svg#7adfd2e465e5a5494cfebbc2416928d9') format('svg'); /* Legacy iOS */
+       
+  font-style:   normal;
+  font-weight:  400;
+}
+  
+
+  
+  html {
+    font-size: 20px
+  }
+  body {
+    height: 100vh;
+    overflow: visible;
+    background-color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+     box-sizing: border-box;
+
+  }
+  .alpha {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-family: 'agency';
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 100;
+    font-size: 5em;
+    transform-origin: center center;
+    transform: translate3d(-50%,-50%,0)scale(1.4);
+    opacity: 0;
+    transition: opacity 4s ease-out, transform 4s ease-out, letter-spacing 4s ease-out, -webkit-filter 3s ease-out, filter 3s ease-out;
+    filter: blur(20px);
+    -webkit-filter: blur(20px);
+    white-space: nowrap;
+    &.in {
+      transform: translate3d(-50%,-50%,0)scale(1);
+      letter-spacing: 0.1em;
+      opacity: 1;
+      filter: blur(0px);
+      -webkit-filter: blur(0px);
+    }
+  }
+  
+  .mars {
+    width: 75%;
+    display: block;
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    animation: mars 360s infinite linear;
+  }
+  @keyframes mars {
+    0% {
+      transform: translate(-50%, 0)rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, 0)rotate(360deg);
+    }
+  }
+
+  .wrapper, .wrapper1{
+    box-shadow: 0 0 20px 0 rgba(72,94,116,0.7);
+  }
+  
+  .wrapper, .wrapper1 > *{
+    padding: 1em;
+  }
+  @media(min-width:700px){
+    .wrapper{
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+    }
+    .wrapper1{
+        display: grid;
+        
+    }
+  
+    .wrapper, .wrapper1 > *{
+      padding:2em;
+    }
+  
+    .company-info h3, .company-info ul, .brand{
+      text-align: left;
+    }
+  }
