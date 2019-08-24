@@ -67,6 +67,12 @@ function addToList() {
 
     console.log(brokenThing);
 
+    // $.post('/api/new-todo', brokenThing)
+    //     .then(function(data) {
+    //         console.log(data);
+            // TODO: append to todo list
+        // });
+
     setTimeout(addToList, 5000);
 }
 
