@@ -2,192 +2,118 @@ var connection = require('../config/connection.js');
 
 module.exports = function(app) {
 
-    // Redirect
-    // app.get('/', function(req,res){
-    //     res.redirect('/todos');
-    // });
-
-    // Get all todos
-    app.get("/api/todo", function(req, res) {
-        connection.query("SELECT * FROM todo;", function(err, data) {
-            if (err) {
-                return res.status(500).end();
-            }
-            console.log(data);
-            res.end();
+    // Register new user
+    app.post('/api/users', function(req,res){
+        var newUser = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            username: req.body.username,
+            password: req.body.password,
+            fav_artist: req.body.fav_artist,
+            fav_genre: req.body.fav_genre,
+            job_title: req.body.job_title
+        };
+        var signUpQ = 'INSERT INTO users SET ?;';
+        connection.query(signUpQ, newUser, function(err, result){
+            if (err) throw err;
+            console.log(
+                `WELCOME NEW USER: 
+                ${result[0].first_name} ${result[0].last_name}, ${result[0].job_title}`
+            );
         });
     });
 
-    // Get all users
-    app.get('/api/users', function(req, res){
-        connection.query('SELECT * FROM users;', function(err, data) {
-            if(err){
-                return res.status(500).end();
-            }
-            console.log(data);
-            res.end();
-        });
-    });
-
-    // To-do list joined with users, roles, jobs
-    app.get('/api/todo-list', function(req,res){
-        connection.query(`SELECT 
-        task AS 'TODO',
-        CASE
-            WHEN assigned = 0 THEN 'NOT ASSIGNED'
-            ELSE 'ASSIGNED'
-        END AS 'ASSIGNMENT',
-        CASE
-            WHEN completed = 0 THEN 'NOT COMPLETED'
-            ELSE 'COMPLETED'
-        END AS 'STATUS',
-        type
-    FROM todo
-        LEFT JOIN jobs
-            ON todo.role_id = jobs.role_id
-        LEFT JOIN roles
-            ON roles.id = todo.role_id
-        GROUP BY task
-        ORDER BY created_at;`, function(err,data){
-            if (err){
-                return res.status(500).end();
-            }
-            console.log(data);
-            res.end();
-        });
-    });
-
-    // List all users' positions
-    app.get('/api/users-jobs', function(req,res){
-        connection.query(`SELECT 
-            CONCAT(first_name, ' ', last_name) AS martian,
-            IFNULL(type, 'not assigned') AS job
-        FROM users
-        LEFT JOIN jobs
-            ON users.id = jobs.user_id
-        LEFT JOIN roles
-            ON jobs.role_id = roles.id;`, function(err,data){
-                if (err){
-                    return res.status(500).end();
-                }
-                console.log(data);
-                res.end();
+    // Get user data after log-in 
+    app.get('/api/users', function(req,res){
+        var loginQuery = `SELECT 
+                id,
+                first_name,
+                last_name,
+                DATE_FORMAT(created_at, '%m/%d/%Y') AS 'arrival date',
+                TIMESTAMPDIFF(SECOND, created_at, NOW())/86400 AS 'earth',
+                TIMESTAMPDIFF(SECOND, created_at, NOW())/88775 AS 'mars',
+                fav_artist,
+                fav_genre
+            FROM users
+            WHERE username = ? AND password =?;`;
+            connection.query(loginQuery, [req.body.username, req.body.password], function(err, result){
+                if (err) throw err;
+                console.log(`WELCOME BACK, ${result[0].first_name} ${result[0].last_name}.`);
             });
     });
 
-    
+    // Get todos
+    app.get('/api/todo', function(req,res){
+        var todoQuery = `SELECT 
+                    id,
+                    task,
+                    username,
+                    completed,
+                    created_at
+                FROM todo 
+                LEFT JOIN users
+                    ON todo.user_id = user.id
+                WHERE user.id = 1 AND user.id = ?;`;
+        connection.query(todoQuery, req.body.id, function(err, result){
+            if (err) throw err;
+            console.log('USER TODOS:')
+            for(var i=0; i<result.length; i++){
+                console.log(`Task ${result[i].id}: ${result[i].task}
+                            Completed: ${result[i].completed}
+                            Assigned by: ${result[i].username}`);
+            }
+        });
+    });
+
+    // New todo
+    app.post('/api/todo', function(req,res){
+        var newTodo = {
+            user_id: req.body.id,
+            task: req.body.task
+        }
+        var addTodoQuery = 'INSERT INTO todo SET ?;';
+        connection.query(addTodoQuery, newTodo, function(err, result){
+            if (err) throw err;
+            console.log(
+                `NEW TODO ADDED: ${result[0].task}`
+            );
+        });
+    });
+
+    // Get chats
+    app.get('/api/chat', function(req,res){
+        var chatQuery = `SELECT 
+                            id, 
+                            message, 
+                            CONCAT(last_name, + ", " + first_name) AS 'name', 
+                            DATE_FORMAT(created_at, "%m/%d/%Y %H:%i") AS 'time'
+                        FROM chat
+                        LEFT JOIN users
+                            ON chat.user_id = user.id
+                        ORDER BY time DESC;`;
+        connection.query(chatQuery, function(err,result){
+            for(var i=0; i<result.length; i++){
+                console.log(`MESSAGE: ${result[i].message} USER: ${result[i].name} TIME: ${result[i].time}`);
+            }
+        });
+    });
+
+    // New chat
+    app.post('/api/chat', function(req,res){
+        var newChat = {
+            user_id = req.body.id,
+            message = req.body.message
+        }
+        var addChatQuery = 'INSERT INTO chat SET ?;';
+        connection.query(addChatQuery, newChat, function(err, result){
+            if (err) throw err;
+            console.log(
+                `NEW MESSAGE: ${result[0].message}`
+            );
+        });
+    });
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Grab users
-    // app.get('/api/users', function(req, res){
-    //     var q = 'SELECT * FROM users;';
-
-    //     connection.query(q, [req.params.q], function(err, data){
-    //         if(err) throw err;
-    //         console.log(data);
-    //         res.json(data);
-    //     });
-    // });
-
-    // Mission length (Earth and Mars) 
-    // Does update per reload
-    // app.get('/api/mission-length', function(req,res){
-    //     var q = `SELECT
-    //                 CONCAT(first_name, ' ', last_name) AS 'astronaut',
-    //                 DATE_FORMAT(created_at, '%m/%d/%Y') AS 'arrival date',
-    //                 TIMESTAMPDIFF(SECOND, created_at, NOW())/86400 AS earth,
-    //                 TIMESTAMPDIFF(SECOND, created_at, NOW())/88775 AS mars
-    //             FROM users
-    //                 ORDER BY mars DESC;`;
-
-    //     connection.query(q, [req.params.q], function(err, data){
-    //         if(err) throw err;
-    //         console.log(data);
-    //         res.json(data);
-    //     });
-    // });
-
-    // Registration 
-    // app.post('/register', function(req, res){
-    // TODO: change for information we want or breakup into two objects
-    //     var person = {
-    //         first_name: req.body.first_name,
-    //         last_name: req.body.last_name,
-    //         email: req.body.email,
-    //         password: req.body.password
-    //     };
-
-    //     connection.query('INSERT INTO users SET ?', person, function(err,res){
-    //         if (err) throw err;
-    //         res.redirect('/'); // TODO: check redirection link
-    //     });
-    // });
-
-    // Get todo list
-    // app.get('/api/todos', function(req,res){
-    //     var q = 'SELECT * FROM todo';
-
-    //     connection.query(q, function(err, result){
-    //         if (err) throw err;
-    //         res.json(result);
-    //     });
-    // });
-
-    // Post to todo list
-    // app.post('/api/new-todo', function(req,res){
-    //     console.log('Tasks: ');
-    //     console.log(req.body);
-
-    //     var todo = {
-    //         task: req.body.task,
-    //         role_id: req.body.role_id
-    //     }; 
-
-    //     connection.query('INSERT INTO todo SET ?', todo, function(err,data){
-    //         if (err) throw err;
-    //         console.log(data + ' added');
-    //         res.redirect('/api/todos');
-    //         res.end();
-    //     });
-    // });
 
 };
