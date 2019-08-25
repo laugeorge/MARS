@@ -1,34 +1,50 @@
-drop database if exists marsChat_db;
+CREATE DATABASE mars_db;
+USE mars_db;
 
-CREATE database marsChat_db;
-
-USE marsChat_db;
-
-CREATE TABLE chats
-( 	id int auto_increment not null primary key,
-    chatName VARCHAR (250) not null
+CREATE TABLE users(
+	id INT auto_increment primary key,
+    first_name varchar(255),
+    last_name varchar(255),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
     
-CREATE TABLE messages (
-	id int AUTO_INCREMENT NOT NULL primary key,
-    message VARCHAR(250) NOT NULL,
-	sender VARCHAR(250) NOT NULL,
-    chats_id int (50),
-	FOREIGN KEY(chats_id) REFERENCES chats(id),
-	created_at TIMESTAMP DEFAULT NOW()
+-- Create table authenticate(
+--  		id Int auto_increment primary key,
+--         passKey varchar(255),
+--         user_id int not null,
+--          Foreign Key (user_id) references users(id)
+--         );
+--     
+--   CREATE TABLE chat(
+-- 			 		id Int auto_increment primary key,
+--                     message varchar(255),
+--                     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--                     user_id int not null,
+--                     foreign key (user_id) references users(id)
+--                     );
+
+-- create table role(
+-- 	id Int auto_increment primary key,
+--     type varchar(255),
+--     user_id int not null,
+--     foreign key (user_id) references users(id)
+--     
+-- );
+
+create table todo (
+	id Int auto_increment primary key,
+		task varchar(255),
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		user_id int not null,
+       -- foreign key(role_id) references role(id),
+		foreign key (user_id) references users(id)
 );
 
-CREATE TABLE users (
-id int auto_increment NOT NULL primary KEY,
-userName varchar(250) NOT NULL,
-roles varchar(250) NOT NULL
+create table active (
+       todo_id int not null,
+		user_id int not null,
+        foreign key (todo_id) references todo(id),
+		foreign key (user_id) references users(id),
+        primary key (todo_id, user_id)
 );
-
-insert into chats (chatName) values ("Maintenance");
-insert into chats (chatName) values ("On Base");
-insert into chats (chatName) values ("Social");
-
-insert into users (userName, roles) values ("DJ Shaneka", "DJ");
-insert into users (userName, roles) values ("Georgy Porgey", "Mechanic");
-insert into users (userName, roles) values ("Maste Kim", "Rover Driver");
-insert into users (userName, roles) values ("CJ from Uranus", "Pilot");
+         
