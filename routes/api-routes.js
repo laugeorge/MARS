@@ -45,15 +45,14 @@ module.exports = function(app) {
     // Get todos
     app.get('/api/todo', function(req,res){
         var todoQuery = `SELECT 
-                    id,
-                    task,
-                    username,
-                    completed,
-                    created_at
-                FROM todo 
-                LEFT JOIN users
-                    ON todo.user_id = user.id
-                WHERE user.id = 1 AND user.id = ?;`;
+                todo.id,
+                task,
+                username,
+                completed
+        FROM todo
+            LEFT JOIN users
+                ON users.id = todo.user_id
+            WHERE users.id=1 OR users.id=?;`;
         connection.query(todoQuery, req.body.id, function(err, result){
             if (err) throw err;
             console.log('USER TODOS:')
@@ -63,6 +62,11 @@ module.exports = function(app) {
                             Assigned by: ${result[i].username}`);
             }
         });
+    });
+
+    // TODO: Check off todo list
+    app.put('/api/todo/:id', function(req,res){
+        
     });
 
     // New todo
@@ -83,14 +87,14 @@ module.exports = function(app) {
     // Get chats
     app.get('/api/chat', function(req,res){
         var chatQuery = `SELECT 
-                            id, 
-                            message, 
-                            CONCAT(last_name, + ", " + first_name) AS 'name', 
-                            DATE_FORMAT(created_at, "%m/%d/%Y %H:%i") AS 'time'
-                        FROM chat
-                        LEFT JOIN users
-                            ON chat.user_id = user.id
-                        ORDER BY time DESC;`;
+                    message, 
+                    username AS 'name', 
+                    CONCAT(first_name, ' ', last_name) AS 'full name',
+                    DATE_FORMAT(chat.created_at, "%m/%d/%Y %H:%i") AS 'time'
+                FROM chat
+                LEFT JOIN users
+                    ON chat.user_id = users.id
+                ORDER BY time DESC;`;
         connection.query(chatQuery, function(err,result){
             for(var i=0; i<result.length; i++){
                 console.log(`MESSAGE: ${result[i].message} USER: ${result[i].name} TIME: ${result[i].time}`);
