@@ -75,9 +75,12 @@ function addToDo (toDo, id, done, trash){
    list.insertAdjacentHTML(position, item);
 }
 
-//UPDATE with ToDo2 = input2.value
+//UPDATE with ToDo2 = input2.value; 
+//Update2 under LIST.push from under name: toDo, id: id,; 
 // add an item to the list user the enter key
 document.addEventListener("keyup",function(event){
+    event.preventDefault();
+
     if(event.keyCode == 13){
         const toDo = input.value;
         const toDo2 = input2.value;
@@ -88,18 +91,22 @@ document.addEventListener("keyup",function(event){
         addToDo(toDo, id, false, false);
     
         LIST.push({
-            name : toDo,
+            name : $("#toDo").valu().trim(),
             id : id,
             done : false,
             trash : false
         });
+
+        console.log(toDo);
 
         // add item to localstorage, need to be added where the LIST array is updated
         localStorage.setItem("TODO", JSON.stringify(LIST));
         
         id++;
     }
-    input.value = ""; 
+    // Update2 from input.value = "";
+    input.value = "";
+    
     }
 });
 
@@ -149,12 +156,12 @@ list.addEventListener("click", function(event){
 //     };
 
 
-LIST.push({
-    name : toDo,
-    id : id,
-    done : false,
-    trash : false
-});
+// LIST.push({
+//     name : toDo,
+//     id : id,
+//     done : false,
+//     trash : false
+// });
 
 //     // Question: What does this code do??
 //     $.post("/api/characters", newCharacter)
