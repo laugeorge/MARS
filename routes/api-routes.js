@@ -55,7 +55,7 @@ module.exports = function(app) {
             WHERE users.id=1 OR users.id=?;`;
         connection.query(todoQuery, req.body.id, function(err, result){
             if (err) throw err;
-            console.log('USER TODOS:')
+            console.log('USER TODOS:');
             for(var i=0; i<result.length; i++){
                 console.log(`Task ${result[i].id}: ${result[i].task}
                             Completed: ${result[i].completed}
@@ -64,9 +64,13 @@ module.exports = function(app) {
         });
     });
 
-    // TODO: Check off todo list
+    // Check off todo list
     app.put('/api/todo/:id', function(req,res){
-        
+        var todoChecked = `UPDATE todo SET completed=1 WHERE id=?;`;
+        connection.query(todoChecked, req.body.id, function(err, result){
+            if(err) throw err;
+            console.log(`TODO ${result[0].id} completed`);
+        });
     });
 
     // New todo
@@ -81,6 +85,15 @@ module.exports = function(app) {
             console.log(
                 `NEW TODO ADDED: ${result[0].task}`
             );
+        });
+    });
+
+    // Delete todo
+    app.delete('/api/todo/:id', function(req,res){
+        var deleteTodo = `DELETE FROM todo WHERE id=?;`;
+        connection.query(deleteTodo, req.body.id, function(err, results){
+            if(err) throw err;
+            console.log(`TODO ${result[0].id} DELETED`);
         });
     });
 
