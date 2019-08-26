@@ -78,20 +78,20 @@ function addToDo (toDo, id, done, trash){
 //UPDATE with ToDo2 = input2.value; 
 //Update2 under LIST.push from under name: toDo, id: id,; 
 // add an item to the list user the enter key
-document.addEventListener("keyup",function(event){
+//document.addEventListener("keyup",function(event){
+$(".submit").on("click",function(event){
     event.preventDefault();
 
-    if(event.keyCode == 13){
+    if(event){
         const toDo = input.value;
-        const toDo2 = input2.value;
-    
+
     // if the input isn't empty
 
     if(toDo){
         addToDo(toDo, id, false, false);
     
         LIST.push({
-            name : $("#toDo").valu().trim(),
+            name : toDo,
             id : id,
             done : false,
             trash : false
@@ -101,7 +101,14 @@ document.addEventListener("keyup",function(event){
 
         // add item to localstorage, need to be added where the LIST array is updated
         localStorage.setItem("TODO", JSON.stringify(LIST));
-        
+
+        //UPDATE HOW DO I GET THIS DATA TO POST TO THE TABLE, IS IT LIST OR toDo
+        $.post("/api/tables", newTask,
+        function(toDo) {
+
+        });
+        //END OF UPDATE FROM ABOVE
+
         id++;
     }
     // Update2 from input.value = "";
@@ -145,23 +152,6 @@ list.addEventListener("click", function(event){
 });
 
 
-// I NEED TO ADD THIS SHIT SOMEWHERE!!!
-// $("#add-btn").on("onkeyup", function(event) {
-//     event.preventDefault();
-//     var newCharacter = {
-//       name: $("#name").val().trim(),
-//       role: $("#role").val().trim(),
-//       age: $("#age").val().trim(),
-//       forcePoints: $("#force-points").val().trim()
-//     };
-
-
-// LIST.push({
-//     name : toDo,
-//     id : id,
-//     done : false,
-//     trash : false
-// });
 
 //     // Question: What does this code do??
 //     $.post("/api/characters", newCharacter)

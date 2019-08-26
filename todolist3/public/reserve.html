@@ -8,6 +8,8 @@
   <!-- Latest compiled and minified CSS & JS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!--Update: adding awesome css-->
+  <link rel="stylesheet" href="css/font-awesome.css">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
@@ -17,48 +19,41 @@
 
   <div class="container">
 
-    <div class="jumbotron">
-      <h1 class="text-center">
-        <span class="fa fa-fire"></span> Hot Restaurant</h1>
-      <hr>
-      <h2 class="text-center">Make your reservation</h2>
-      <br>
-      <div class="text-center">
-        <a href="/tables">
-          <button class="btn btn-lg btn-primary">
-            <span class="fa fa-list-alt"></span> View Tables</button>
-        </a>
-        <a href="/">
-          <button class="btn btn-lg btn-default">
-            <span class="fa fa-home"></span>
-          </button>
-        </a>
+    <div class="jumbotron col-md-8 img-fluid" style=background-image:url(../img/mars.jpg) background-size: cover;>
+      <h2 class="text-center">
+          <span class="fa fa-refresh" href="/reserve.html"></span> To Do List</h1>
+
+          <div class="text-center">
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-md-8">
         <!-- Reservation Page -->
         <div class="card">
+
+          <!-- Update: Displaying toDoTask-->
+          <div class="card">
+              <div class="card-header">
+                <h5>Tasks</h4>
+              </div>
+              <div class="card-body">
+                <ul id="tableList" class="list-group"></ul>
+
+              </div>
+          </div>
+
           <div class="card-header">
-            Table Reservation
+            Task to Perform
           </div>
           <div class="card-body">
             <form role="form">
               <div class="form-group">
-                <label for="reserve-name">Name</label>
-                <input type="text" class="form-control" id="reserve-name">
+                <label for="task-name">Task</label>
+                <input type="text" class="form-control" id="task-name">
               </div>
               <div class="form-group">
-                <label for="reserve-phone">Phone Number</label>
-                <input type="text" class="form-control" id="reserve-phone">
-              </div>
-              <div class="form-group">
-                <label for="reserve-email">Email</label>
-                <input type="text" class="form-control" id="reserve-email">
-              </div>
-              <div class="form-group">
-                <label for="reserve-unique-id">Unique ID</label>
-                <input type="text" class="form-control" id="reserve-unique-id">
+                <label for="reserve-person">Person to Perform</label>
+                <input type="text" class="form-control" id="reserve-person">
               </div>
               <button type="submit" class="btn btn-primary submit">Submit</button>
             </form>
@@ -67,10 +62,10 @@
       </div>
     </div>
 
-
     <footer class="footer">
       <div class="container">
         <p>
+            <a href="#" id="clear">Clear Tables</a> |
           <a href="/api/tables">API Table Link</a> |
           <a href="/api/waitlist">API Wait List</a>
       </div>
@@ -78,12 +73,15 @@
 
   </div>
 
-</body>
 
-</html>
-
-<!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
+<!--BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER-->
 <script type="text/javascript">
+
+// UPDATE Classes names
+const CHECK = "fa-check-circle";
+const UNCHECK = "fa-circle-thin";
+const LINE_THROUGH = "lineThrough";
+
   // In this code below we create the Front-end JavaScript which "POSTS" our form data to our express server.
   // In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
   // Our api recognizes the route (/api/tables)... and then runs the associated code (found in api-routes.js).
@@ -92,42 +90,89 @@
   $(".submit").on("click", function(event) {
     event.preventDefault();
 
+
     // Here we grab the form elements
-    var newReservation = {
-      customerName: $("#reserve-name").val().trim(),
-      phoneNumber: $("#reserve-phone").val().trim(),
-      customerEmail: $("#reserve-email").val().trim(),
-      customerID: $("#reserve-unique-id").val().trim()
+
+    //how to i put an If statement 
+    // HOW DO I att the check uncheck 
+    const newTask = {
+      taskName: $("#task-name").val().trim(),
+      personToPerform: $("#reserve-person").val().trim()
+
     };
 
-    console.log(newReservation);
+    console.log(newTask);
 
     // This line is the magic. It"s very similar to the standard ajax function we used.
     // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
     // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
     // depending on if a tables is available or not.
 
-    $.post("/api/tables", newReservation,
-      function(data) {
+      $.post("/api/tables", newTask,
+        function(data) {
 
-        // If a table is available... tell user they are booked.
-        if (data) {
-          alert("Yay! You are officially booked!");
-        }
-
-        // If a table is available... tell user they on the waiting list.
-        else {
-          alert("Sorry you are on the wait list");
-        }
-
-        // Clear the form when submitting
-        $("#reserve-name").val("");
-        $("#reserve-phone").val("");
-        $("#reserve-email").val("");
-        $("#reserve-unique-id").val("");
-
+          // Clear the form when submitting
+          $("#task-name").val("");
+          $("#reserve-person").val("");
+        });
+    
+    //UPDATE1 Task to fade out
+    $(document).on('dblclick','li', function(){
+        $(this).toggleClass('strike').fadeOut('slow');    
       });
 
   });
 
+  // Update1 to get taskToDo
+  function runTableQuery() {
+    // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+    $.ajax({ url: "/api/tables", method: "GET" })
+      .then(function(tableData) {
+
+        // Here we then log the tableData to console, where it will show up as an object.
+        console.log(tableData);
+        console.log("------------------------------------");
+
+        // Loop through and display each of the customers
+        for (var i = 0; i < tableData.length; i++) {
+
+          // Get a reference to the tableList element and populate it with tables
+          var tableList = $("#tableList");
+
+          // Then display the fields in the HTML (Section Name, Date, URL)
+          var listItem = $("<li class='list-group-item mt-4'>");
+
+          listItem.append(
+            $("<h3>").text("Task: " + tableData[i].taskName),
+            $("<h4>").text("Name: " + tableData[i].personToPerform)
+
+          );
+
+          tableList.append(listItem);
+        }
+      });
+  }
+
+  // Update a function later to trash all tasks
+  // This function resets all of the data in our tables. This is intended to let you restart a demo.
+  function clearTable() {
+  alert("Clearing task...");
+
+    // Clear the tables on the server and then empty the elements on the client
+    $.ajax({ url: "/api/clear", method: "POST" }).then(function() {
+      $("#waitList").empty();
+      $("#tableList").empty();
+    });
+  }
+
+  $("#clear").on("click", clearTable);
+
+
+  // Run Queries!
+  // ==========================================
+  runTableQuery();
+
 </script>
+</body>
+
+</html>

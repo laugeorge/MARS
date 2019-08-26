@@ -96,10 +96,9 @@
           listItem.append(
             $("<h2>").text("Table #" + (i + 1)),
             $("<hr>"),
-            $("<h2>").text("ID: " + tableData[i].customerID),
-            $("<h2>").text("Name: " + tableData[i].customerName),
-            $("<h2>").text("Email: " + tableData[i].customerEmail),
-            $("<h2>").text("Phone: " + tableData[i].phoneNumber)
+            $("<h2>").text("Task: " + tableData[i].taskName),
+            $("<h2>").text("Name: " + tableData[i].personToPerform),
+
           );
 
           tableList.append(listItem);
@@ -107,38 +106,36 @@
       });
   }
 
-  function runWaitListQuery() {
+  // function runWaitListQuery() {
 
-    // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
-    $.ajax({ url: "/api/waitlist", method: "GET" })
-      .then(function(waitData) {
+  //   // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+  //   $.ajax({ url: "/api/waitlist", method: "GET" })
+  //     .then(function(waitData) {
 
-        // Here we then log the waitlistData to console, where it will show up as an object.
-        console.log(waitData);
-        console.log("------------------------------------");
+  //       // Here we then log the waitlistData to console, where it will show up as an object.
+  //       console.log(waitData);
+  //       console.log("------------------------------------");
 
-        // Loop through and display each of the customers
-        for (var i = 0; i < waitData.length; i++) {
+  //       // Loop through and display each of the customers
+  //       for (var i = 0; i < waitData.length; i++) {
 
-          // Get a reference to the waitList element and populate it with tables
-          var waitList = $("#waitList");
+  //         // Get a reference to the waitList element and populate it with tables
+  //         var waitList = $("#waitList");
 
-          // Then display the fields in the HTML (Section Name, Date, URL)
-          var listItem = $("<li class='list-group-item mt-4'>");
+  //         // Then display the fields in the HTML (Section Name, Date, URL)
+  //         var listItem = $("<li class='list-group-item mt-4'>");
 
-          listItem.append(
-            $("<h2>").text("Table #" + (i + 1)),
-            $("<hr>"),
-            $("<h2>").text("ID: " + waitData[i].customerID),
-            $("<h2>").text("Name: " + waitData[i].customerName),
-            $("<h2>").text("Email: " + waitData[i].customerEmail),
-            $("<h2>").text("Phone: " + waitData[i].phoneNumber)
-          );
+  //         listItem.append(
+  //           $("<h2>").text("Table #" + (i + 1)),
+  //           $("<hr>"),
+  //           $("<h2>").text("ID: " + waitData[i].taskName),
+  //           $("<h2>").text("Name: " + waitData[i].personToPerform),
+  //         );
 
-          waitList.append(listItem);
-        }
-      });
-  }
+  //         waitList.append(listItem);
+  //       }
+  //     });
+  // }
 
   // This function resets all of the data in our tables. This is intended to let you restart a demo.
   function clearTable() {

@@ -16,28 +16,13 @@ module.exports = function(app) {
   // ---------------------------------------------------------------------------
 
   //Basic route that sends the user first to the AJAX Page
-  app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "index.html"));
+  app.get("/reserve", function(req, res) {
+    res.sendFile(path.join(__dirname, "../index.html"));
   });
-  
-  // Displays all toDo
-  app.get("/api/List", function(req, res) {
-    return res.json(characters);
-  });
-  
-  // Displays a single toDo, or returns false
-  app.get("/api/LIST/:LIST", function(req, res) {
-    var chosen = req.params.character;
-  
-    console.log(chosen);
-  
-    for (var i = 0; i < LIST.length; i++) {
-      if (chosen === LIST[i].routeName) {
-        return res.json(LIST[i]);
-      }
-    }
-  
-    return res.json(false);
+
+  // If no matching route is found default to home
+  app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "../index.html"));
   });
 
 };
