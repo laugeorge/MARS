@@ -9,8 +9,6 @@ module.exports = function(app) {
             last_name: req.body.last_name,
             username: req.body.username,
             password: req.body.password,
-            fav_artist: req.body.fav_artist,
-            fav_genre: req.body.fav_genre,
             job_title: req.body.job_title
         };
         var signUpQ = 'INSERT INTO users SET ?;';
@@ -20,6 +18,7 @@ module.exports = function(app) {
                 `WELCOME NEW USER: 
                 ${result[0].first_name} ${result[0].last_name}, ${result[0].job_title}`
             );
+            // return res.json(newUser);
         });
     });
 
@@ -31,14 +30,13 @@ module.exports = function(app) {
                 last_name,
                 DATE_FORMAT(created_at, '%m/%d/%Y') AS 'arrival date',
                 TIMESTAMPDIFF(SECOND, created_at, NOW())/86400 AS 'earth',
-                TIMESTAMPDIFF(SECOND, created_at, NOW())/88775 AS 'mars',
-                fav_artist,
-                fav_genre
+                TIMESTAMPDIFF(SECOND, created_at, NOW())/88775 AS 'mars'
             FROM users
             WHERE username = ? AND password =?;`;
             connection.query(loginQuery, [req.body.username, req.body.password], function(err, result){
                 if (err) throw err;
                 console.log(`WELCOME BACK, ${result[0].first_name} ${result[0].last_name}.`);
+                // return res.json();
             });
     });
 
