@@ -62,18 +62,22 @@ function addToList() {
 
     var brokenThing = {
         task: `fix Curiosity's ${a}`,
-        role_id: 1
+        user_id: 1
     };
 
     console.log(brokenThing);
 
-    // $.post('/api/new-todo', brokenThing)
-    //     .then(function(data) {
-    //         console.log(data);
-            // TODO: append to todo list
-        // });
+    $.ajax('/api/todo', {
+        type: 'POST',
+        data: brokenThing
+    }).then(
+        function() {
+            console.log('created new todo');
+            location.reload();
+        }
+    )
 
-    setTimeout(addToList, 5000);
+    setTimeout(addToList, 10000);
 }
 
 addToList();
