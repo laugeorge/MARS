@@ -19,7 +19,7 @@
 
   <div class="container">
 
-    <div class="jumbotron col-md-8 img-fluid" style=background-image:url(../img/mars.jpg) background-size: cover;>
+    <div class="jumbotron col-md-8 img-fluid" style="background-image:url(../img/mars.jpg); background-size: cover;">
       <h2 class="text-center">
           <span class="fa fa-refresh" href="/reserve.html"></span> To Do List</h1>
 
@@ -55,7 +55,7 @@
                 <label for="reserve-person">Person to Perform</label>
                 <input type="text" class="form-control" id="reserve-person">
               </div>
-              <button type="submit" class="btn btn-primary submit">Submit</button>
+              <button type="submit" class="btn btn-primary submit" disabled="disabled" id="submit-btn">Submit</button>
             </form>
           </div>
         </div>
@@ -90,38 +90,58 @@ const LINE_THROUGH = "lineThrough";
   $(".submit").on("click", function(event) {
     event.preventDefault();
 
+    if ($("#task-name").val() !== "") {
+      // Here we grab the form elements
 
-    // Here we grab the form elements
+      //how to i put an If statement 
+      // HOW DO I att the check uncheck 
+      const newTask = {
+        taskName: $("#task-name").val().trim(),
+        personToPerform: $("#reserve-person").val().trim()
 
-    //how to i put an If statement 
-    // HOW DO I att the check uncheck 
-    const newTask = {
-      taskName: $("#task-name").val().trim(),
-      personToPerform: $("#reserve-person").val().trim()
+      };
 
-    };
+      console.log(newTask);
 
-    console.log(newTask);
+      // This line is the magic. It"s very similar to the standard ajax function we used.
+      // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+      // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+      // depending on if a tables is available or not.
 
-    // This line is the magic. It"s very similar to the standard ajax function we used.
-    // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
-    // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
-    // depending on if a tables is available or not.
+        $.post("/api/tables", newTask,
+          function(data) {
 
-      $.post("/api/tables", newTask,
-        function(data) {
-
-          // Clear the form when submitting
-          $("#task-name").val("");
-          $("#reserve-person").val("");
+            // Clear the form when submitting
+            $("#task-name").val("");
+            $("#reserve-person").val("");
+          });
+      
+      //UPDATE1 Task to fade out
+      $(document).on('dblclick','li', function(){
+          $(this).toggleClass('strike').fadeOut('slow');    
         });
-    
-    //UPDATE1 Task to fade out
-    $(document).on('dblclick','li', function(){
-        $(this).toggleClass('strike').fadeOut('slow');    
-      });
+    } 
+    else 
+    alert ("Please enter task...")
 
   });
+
+  $('#task-name').keyup(function() {
+
+    var empty = false;
+    $('#task-name').each(function() {
+        if ($(this).val().length == 0) {
+            empty = true;
+        }
+    });
+
+    if (empty) {
+        $('#submit-btn').attr('disabled', 'disabled');
+    } else {
+        $('#submit-btn').removeAttr('disabled');
+    }
+  });
+
 
   // Update1 to get taskToDo
   function runTableQuery() {
