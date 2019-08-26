@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/laugeorge/MARS#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "mysql": "^2.17.1"
