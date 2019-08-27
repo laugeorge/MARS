@@ -2,7 +2,11 @@ var connection = require('../config/connection.js');
 
 module.exports = function(app) {
 
+    // *=========================== USERS =============================== //
+
     // Register new user
+    // TODO: F.E.: REDIRECT TO LOG-IN PAGE. SOMETHING THAT SAYS IT'S SUCCESSFUL?
+
     app.post('/api/users', function(req,res){
         var newUser = {
             first_name: req.body.first_name,
@@ -11,25 +15,21 @@ module.exports = function(app) {
             password: req.body.password,
             job_title: req.body.job_title
         };
-        var signUpQ = 'INSERT INTO users SET ?;';
         connection.query(signUpQ, newUser, function(err, result){
             if (err) throw err;
-            console.log(
-                `WELCOME NEW USER: 
-                ${result[0].first_name} ${result[0].last_name}, ${result[0].job_title}`
-            );
-            res.json(newUser);
         });
     });
 
+
+    // =============================================================== //
+
     // Get user data after log-in 
+
     app.post('/api/log-in', function(req,res){
         var loginQuery = `SELECT 
                 id,
                 first_name,
                 last_name,
-                DATE_FORMAT(created_at, '%m/%d/%Y') AS 'arrival date',
-                TIMESTAMPDIFF(SECOND, created_at, NOW())/86400 AS 'earth',
                 TIMESTAMPDIFF(SECOND, created_at, NOW())/88775 AS 'mars'
             FROM users
             WHERE username = ? AND password =?;`;
@@ -40,8 +40,11 @@ module.exports = function(app) {
             });
     });
 
+    // *=========================== TODOS =============================== //
+
     // Get todos
-    // localhost:8080/api/todos?id=1234
+    // EXAMPLE TO GET ID=?  localhost:8080/api/todos?id=1234
+
     app.get('/api/todos', function(req,res){
         var todoQuery = `SELECT 
                 todo.id,
@@ -61,45 +64,56 @@ module.exports = function(app) {
                             Completed: ${todos[i].completed}
                             Assigned by: ${todos[i].username}`);
             }
-            res.json(todos)
+            res.json(todos);
         });
     });
 
+    // =============================================================== //
+
     // Check off todo list
+
     app.put('/api/todo/:id', function(req,res){
         var todoChecked = `UPDATE todo SET completed=1 WHERE id=?;`;
         connection.query(todoChecked, req.params.id, function(err, result){
             if(err) throw err;
-            console.log(`TODO ${result[0].id} completed`);
         });
     });
 
+    // =============================================================== //
+
     // New todo
+    // TODO: F.E.: RELOAD PAGE TO DISPLAY NEW TODO
+
     app.post('/api/todo', function(req,res){
         var newTodo = {
-            user_id: req.body.id,
+            user_id: req.body.user_id,
             task: req.body.task
         }
         var addTodoQuery = 'INSERT INTO todo SET ?;';
         connection.query(addTodoQuery, newTodo, function(err, result){
             if (err) throw err;
-            console.log(
-                `NEW TODO ADDED: ${result[0].task}`
-            );
+            res.end();
         });
     });
+
+    // =============================================================== //
 
     // Delete todo
+    // TODO: F.E.: RELOAD FOR NEW TODO LIST
+
     app.delete('/api/todo/:id', function(req,res){
         var deleteTodo = `DELETE FROM todo WHERE id=?;`;
-        connection.query(deleteTodo, req.body.id, function(err, results){
+        connection.query(deleteTodo, req.params.id, function(err, results){
             if(err) throw err;
-            console.log(`TODO ${result[0].id} DELETED`);
+            res.end();
         });
     });
 
+    // *========================= CHATS ================================= //
+
     // Get chats
-    app.get('/api/chat', function(req,res){
+
+    app.get('/api/chats', function(req,res){
         var chatQuery = `SELECT 
                     message, 
                     username AS 'name', 
@@ -109,29 +123,30 @@ module.exports = function(app) {
                 LEFT JOIN users
                     ON chat.user_id = users.id
                 ORDER BY time DESC;`;
-        connection.query(chatQuery, function(err,result){
-            for(var i=0; i<result.length; i++){
-                console.log(`MESSAGE: ${result[i].message} USER: ${result[i].name} TIME: ${result[i].time}`);
+        connection.query(chatQuery, function(err,chats){
+            for(var i=0; i<chats.length; i++){
+                console.log(`MESSAGE: ${chats[i].message} USER: ${chats[i].name} TIME: ${chats[i].time}`);
             }
+            res.json(chats);
         });
     });
 
+    // =============================================================== //
+
     // New chat
+    // TODO: F.E.: RELOAD PAGE TO DISPLAY NEW CHAT
+
     app.post('/api/chat', function(req,res){
         var newChat = {
-            user_id: req.body.id,
+            user_id: req.body.user_id,
             message: req.body.message
         }
         var addChatQuery = 'INSERT INTO chat SET ?;';
         connection.query(addChatQuery, newChat, function(err, result){
             if (err) throw err;
-            console.log(
-                `NEW MESSAGE: ${result[0].message}`
-            );
+            res.end();
         });
     });
-
-
 
 
 };
