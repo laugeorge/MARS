@@ -30,6 +30,7 @@ module.exports = function(app) {
                 id,
                 first_name,
                 last_name,
+                job_title,
                 TIMESTAMPDIFF(SECOND, created_at, NOW())/88775 AS 'mars'
             FROM users
             WHERE username = ? AND password =?;`;
