@@ -18,12 +18,12 @@ module.exports = function(app) {
                 `WELCOME NEW USER: 
                 ${result[0].first_name} ${result[0].last_name}, ${result[0].job_title}`
             );
-            // return res.json(newUser);
+            res.json(newUser);
         });
     });
 
     // Get user data after log-in 
-    app.get('/api/users', function(req,res){
+    app.post('/api/log-in', function(req,res){
         var loginQuery = `SELECT 
                 id,
                 first_name,
@@ -36,12 +36,13 @@ module.exports = function(app) {
             connection.query(loginQuery, [req.body.username, req.body.password], function(err, result){
                 if (err) throw err;
                 console.log(`WELCOME BACK, ${result[0].first_name} ${result[0].last_name}.`);
-                // return res.json();
+                res.json(result);
             });
     });
 
     // Get todos
-    app.get('/api/todo', function(req,res){
+    // localhost:8080/api/todos?id=1234
+    app.get('/api/todos', function(req,res){
         var todoQuery = `SELECT 
                 todo.id,
                 task,
@@ -51,21 +52,23 @@ module.exports = function(app) {
             LEFT JOIN users
                 ON users.id = todo.user_id
             WHERE users.id=1 OR users.id=?;`;
-        connection.query(todoQuery, req.body.id, function(err, result){
+
+        connection.query(todoQuery, req.query.id, function(err, todos){
             if (err) throw err;
             console.log('USER TODOS:');
-            for(var i=0; i<result.length; i++){
-                console.log(`Task ${result[i].id}: ${result[i].task}
-                            Completed: ${result[i].completed}
-                            Assigned by: ${result[i].username}`);
+            for(var i=0; i<todos.length; i++){
+                console.log(`Task ${todos[i].id}: ${todos[i].task}
+                            Completed: ${todos[i].completed}
+                            Assigned by: ${todos[i].username}`);
             }
+            res.json(todos)
         });
     });
 
     // Check off todo list
     app.put('/api/todo/:id', function(req,res){
         var todoChecked = `UPDATE todo SET completed=1 WHERE id=?;`;
-        connection.query(todoChecked, req.body.id, function(err, result){
+        connection.query(todoChecked, req.params.id, function(err, result){
             if(err) throw err;
             console.log(`TODO ${result[0].id} completed`);
         });
@@ -116,8 +119,8 @@ module.exports = function(app) {
     // New chat
     app.post('/api/chat', function(req,res){
         var newChat = {
-            user_id = req.body.id,
-            message = req.body.message
+            user_id: req.body.id,
+            message: req.body.message
         }
         var addChatQuery = 'INSERT INTO chat SET ?;';
         connection.query(addChatQuery, newChat, function(err, result){
