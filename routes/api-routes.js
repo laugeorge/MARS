@@ -30,6 +30,7 @@ module.exports = function(app) {
                 id,
                 first_name,
                 last_name,
+                job_title,
                 TIMESTAMPDIFF(SECOND, created_at, NOW())/88775 AS 'mars'
             FROM users
             WHERE username = ? AND password =?;`;
@@ -117,7 +118,7 @@ module.exports = function(app) {
         var chatQuery = `SELECT 
                     message, 
                     username AS 'name', 
-                    CONCAT(first_name, ' ', last_name) AS 'full name',
+                    CONCAT(first_name, ' ', last_name) AS 'full_name',
                     DATE_FORMAT(chat.created_at, "%m/%d/%Y %H:%i") AS 'time'
                 FROM chat
                 LEFT JOIN users
