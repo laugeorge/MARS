@@ -20,114 +20,88 @@
 
 
 <body id = "apod_img_id">
-        <div class="container animated bounceInLeft" style="background:black; font-family: 'Helvetica Neue', Helvetica;">
-                <div>
-                        <img class="Logo" src="../Images/mars 7.jpg" style="align-content: center;margin-left: auto;margin-right: auto;
-                        display: block; width: 200px; height: 150px;">
-                </div>
+	<div class="container animated bounceInLeft" style="background:black; font-family: 'Helvetica Neue', Helvetica;">
+		<div>
+			<img class="Logo" src="../Images/mars 7.jpg" style="align-content: center;margin-left: auto;margin-right: auto; display: block; width: 200px; height: 150px;">
+		</div>
 
-                <div class="wrapper">
-                        <div class="row">
-                                <div class="col-sm-3">
-                                        <div class="panel panel-default panel-body border border-danger">
+			<div class="wrapper">
+				<div class="row">
 
-                                                <div class="panel-heading text-center font-weight-bold">
-                                                        <h3>Profile Photo</h3>
-                                                        <img src="../Images/image1.jpeg" class="responsive">
+					<div class="col-sm-3">
+						<div class="panel panel-default panel-body border border-danger">
 
-                                                        <hr color="red" width="100%">
-                                                        <!-- TODO: first_name, last_name -->
-                                                        <h3>FIRST_NAME LAST_NAME</h3>
-                                                        <hr color="red" width="100%">
-                                                        <!-- TODO: job_title -->
-                                                        <h3>JOB_TITLE</h3>
-                                                </div>
-                                        </div>
-                                </div>
-                                <div class="col-sm-6">
-                                        <div class="panel panel-default panel-body border border-danger">
-                                                <!-- TODO: create weather function that returns random temp -->
-                                                <!-- TODO: first_name, mars, earth -->
-                                                <h1>Welcome, FIRST_NAME.</h1>
-                                                <h3>The current tempreture on Mars is RAN &#176 Celcius</h1>
-                                                <h4>SOLS ON MARS: MARS</h4>
-                                        </div>
-                                </div>
+							<div class="panel-heading text-center font-weight-bold">
+									<!-- PROFILE PIC -->
+									<img src="../Images/image1.jpeg" class="responsive">
+									<!-- User information goes here -->
+									<hr color="red" width="100%">
 
-                                <!-- TODO: input box/search button for spotify -->
-                                <div class="col-sm-3">
-                                        <div class="panel panel-default">
-                                                <div class="panel-heading text-center ">
-                                                        <h3>My Music</h3>
-                                                        <h1> Play Metalica</h1>
-                                                </div>
-                                        </div>
-                                </div>
-                        </div>
-                </div>
-                <div class="wrapper">
-                        <div class="row">
-                                <div class="col-sm-4">
-                                        <div class="panel panel-default panel-body border border-danger">
-                                                <!-- TODO: Render chats -->
-                                                <!-- TODO: Chat form -->
-                                                <div class="panel-heading text-center font-weight-bold">
-                                                        <h3>Chat Window</h3>
-                                                        <h3></h3>
-                                                </div>
-                                        </div>
-                                </div>
-                                <!-- TODO: Render todo list -->
-                                <div class="col-sm-8">
-                                        <div class="panel panel-default panel-body border border-danger">
-                                                <h1> To Do List</h1>
-                                        </div>
-                                </div>
-                        </div>
-                </div>
-        </div>
+									<!-- TODO: first_name, last_name -->
+									<h3 id='fullname'>FIRST_NAME LAST_NAME</h3>
 
-<script>
+									<hr color="red" width="100%">
 
+									<!-- TODO: job_title -->
+									<h3 id='jobtitle'>JOB_TITLE</h3>
+							</div>
+						</div>
+					</div>
 
-var url = "https://api.nasa.gov/planetary/apod?api_key=wubu1AknV9GHmkasgZcqPrAx1T6mI7G3bq9DNbqh";
+					<!-- temperature, mission-length section -->
+					<div class="col-sm-6">
+						<div class="panel panel-default panel-body border border-danger">
+							<!-- TODO: create weather function that returns random temp -->
+							<!-- TODO: first_name, mars, earth -->
+							<h1>Welcome, <span id='firstname'>FIRST_NAME</span>!</h1>
+							<h3>The current temperature on Mars is <span id='temp'>TEMP</span>&#176 Celcius</h1>
+							<h4>SOLS ON MARS: <span id='mission-length'></span></h4>
+						</div>
+					</div>
 
+					<!-- spotify section -->
+					<!-- TODO: input box/search button for spotify -->
+					<div class="col-sm-3">
+						<div class="panel panel-default">
+							<div class="panel-heading text-center ">
+								<h3>My Music</h3>
+								<h1> Play Metalica</h1>
+							</div>
+						</div>
+					</div>
 
-$.ajax({
-  url: url,
-  success: function(result){
-  if("copyright" in result) {
-    $("#copyright").text("Image Credits: " + result.copyright);
-  }
-  else {
-    $("#copyright").text("Image Credits: " + "Public Domain");
-  }
-  
-  if(result.media_type == "video") {
-    $("#apod_img_id").css("display", "none"); 
-    $("#apod_vid_id").attr("src", result.url);
-  }
-  else {
-    $("#apod_vid_id").css("display", "none"); 
-    $("#apod_img_id").attr("src", result.url);
-  }
-  $("#reqObject").text(url);
-  $("#returnObject").text(JSON.stringify(result, null, 4));  
-  $("#apod_explaination").text(result.explanation);
-  $("#apod_title").text(result.title);
+				</div>
+			</div>
 
-  console.log ( result.url);
-  $('#apod_img_id').css('background-image', `url(${result.url})`);
+		<div class="wrapper">
+			<div class="row">
 
-}
+				<!-- chat window -->
+				<div class="col-sm-4">
+					<div class="panel panel-default panel-body border border-danger">
+						<!-- TODO: Render chats -->
+						<!-- TODO: Chat form -->
+						<div class="panel-heading text-center font-weight-bold" id='chats'>
+							<h3>Chat</h3>
+						</div>
+					</div>
+				</div>
 
-});
+				<!-- -todo list -->
+				<!-- TODO: Render todo list -->
+				<div class="col-sm-8">
+					<div class="panel panel-default panel-body border border-danger">
+						<h1>To Do List</h1>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
 
 
-</script>
-<script src='/public/assets/js/app.js'></script>
 
 </body>
-
+<script src='../assets/js/app.js'></script>
 
 </html>
