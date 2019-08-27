@@ -61,13 +61,22 @@ function addToList() {
     var a = randRange(curiosity);
 
     var brokenThing = {
+<<<<<<< HEAD
         task: `fix Curiosity's ${a}`,
         id: 1
+=======
+        user_id: 1,
+        task: `fix ${a}`
+>>>>>>> 5123f90166c1a1c7d6760d8ed3c9758f5f5de03c
     };
 
     console.log(brokenThing);
 
+<<<<<<< HEAD
     $.ajax('/api/todo', {
+=======
+    $.AJAX('/api/todo', {
+>>>>>>> 5123f90166c1a1c7d6760d8ed3c9758f5f5de03c
         type: 'POST',
         data: brokenThing
     }).then(
