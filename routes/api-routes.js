@@ -99,7 +99,7 @@ module.exports = function(app) {
     });
 
     // Get chats
-    app.get('/api/chat', function(req,res){
+    app.get('/api/chats', function(req,res){
         var chatQuery = `SELECT 
                     message, 
                     username AS 'name', 
@@ -109,10 +109,11 @@ module.exports = function(app) {
                 LEFT JOIN users
                     ON chat.user_id = users.id
                 ORDER BY time DESC;`;
-        connection.query(chatQuery, function(err,result){
-            for(var i=0; i<result.length; i++){
-                console.log(`MESSAGE: ${result[i].message} USER: ${result[i].name} TIME: ${result[i].time}`);
+        connection.query(chatQuery, function(err,chats){
+            for(var i=0; i<chats.length; i++){
+                console.log(`MESSAGE: ${chats[i].message} USER: ${chats[i].name} TIME: ${chats[i].time}`);
             }
+            res.json(chats);
         });
     });
 
