@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+        <title>Mad Ass Ranger Space</title>
+        <link href="./mainPage.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+                crossorigin="anonymous">
+        <!-- CSS Dashboard -->
+        <link rel="stylesheet" href="./Dashboard.css">
+        <!-- CSS Dashboard -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+
+<body id = "apod_img_id">
+        <div class="container animated bounceInLeft" style="background:black; font-family: 'Helvetica Neue', Helvetica;">
+                <div>
+                        <img class="Logo" src="mars 7.jpg" style="align-content: center;margin-left: auto;margin-right: auto;
+                        display: block; width: 200px; height: 150px;">
+                </div>
+
+                <div class="wrapper">
+                        <div class="row">
+                                <div class="col-sm-3">
+                                        <div class="panel panel-default panel-body border border-danger">
+
+                                                <div class="panel-heading text-center font-weight-bold">
+                                                        <h3>Profile Photo</h3>
+                                                        <img src="./Images/image1.jpeg" class="responsive">
+
+                                                        <hr color="red" width="100%">
+                                                        <!-- TODO: first_name, last_name -->
+                                                        <h3>Pooja Chauhan</h3>
+                                                        <hr color="red" width="100%">
+                                                        <!-- TODO: job_title -->
+                                                        <h3> Micro Biologist </h3>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="col-sm-6">
+                                        <div class="panel panel-default panel-body border border-danger">
+                                                <!-- TODO: create weather function that returns random temp -->
+                                                <!-- TODO: first_name, mars, earth -->
+                                                <h1>Welcome, FIRST_NAME.</h1>
+                                                <h3>The current tempreture on Mars is RAN &#176 Celcius</h1>
+                                                <h4>SOLS ON MARS: </h4>
+                                        </div>
+                                </div>
+
+                                <!-- TODO: input box/search button for spotify -->
+                                <div class="col-sm-3">
+                                        <div class="panel panel-default">
+                                                <div class="panel-heading text-center ">
+                                                        <h3>My Music</h3>
+                                                        <h1> Play Metalica</h1>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                <div class="wrapper">
+                        <div class="row">
+                                <div class="col-sm-4">
+                                        <div class="panel panel-default panel-body border border-danger">
+                                                <!-- TODO: Render chats -->
+                                                <div class="panel-heading text-center font-weight-bold">
+                                                        <h3>Chat Window</h3>
+                                                        <h3></h3>
+                                                </div>
+                                        </div>
+                                </div>
+                                <!-- TODO: Render todo list -->
+                                <!-- TODO: Create todo list form -->
+                                <div class="col-sm-8">
+                                        <div class="panel panel-default panel-body border border-danger">
+                                                <h1> To Do List</h1>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+<script>
+
+
+var url = "https://api.nasa.gov/planetary/apod?api_key=wubu1AknV9GHmkasgZcqPrAx1T6mI7G3bq9DNbqh";
+
+
+$.ajax({
+  url: url,
+  success: function(result){
+  if("copyright" in result) {
+    $("#copyright").text("Image Credits: " + result.copyright);
+  }
+  else {
+    $("#copyright").text("Image Credits: " + "Public Domain");
+  }
+  
+  if(result.media_type == "video") {
+    $("#apod_img_id").css("display", "none"); 
+    $("#apod_vid_id").attr("src", result.url);
+  }
+  else {
+    $("#apod_vid_id").css("display", "none"); 
+    $("#apod_img_id").attr("src", result.url);
+  }
+  $("#reqObject").text(url);
+  $("#returnObject").text(JSON.stringify(result, null, 4));  
+  $("#apod_explaination").text(result.explanation);
+  $("#apod_title").text(result.title);
+
+  console.log ( result.url);
+  $('#apod_img_id').css('background-image', `url(${result.url})`);
+
+}
+
+});
+
+
+</script>
+<script src='/public/assets/js/app.js'></script>
+
+</body>
+
+
+</html>
