@@ -21,6 +21,7 @@ app.set('view engine', 'ejs');
 
 // Require api-routes.js
 require('./routes/api-routes')(app);
+require('./routes/html-routes')(app);
 
 app.listen(PORT, function(){
     console.log(`LET'S GO TO MARS ON PORT ${PORT}`);
