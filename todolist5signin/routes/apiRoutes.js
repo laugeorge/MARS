@@ -37,7 +37,7 @@ module.exports = function(app) {
 
   // app.get("/api/waitlist", function(req, res) {
   //   res.json(waitListData);
-  // });
+ });
 
   // API POST Requests
   // Below code handles when a user submits a form and thus submits data to the server.
@@ -68,6 +68,4 @@ module.exports = function(app) {
 
     res.json({ ok: true });
   });
-
-  
 };

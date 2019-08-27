@@ -55,8 +55,8 @@
                 <label for="password">Password:</label>
                 <input type="text" class="form-control" id="password">
               </div>
-              <button type="submit" class="btn btn-primary submit" disabled="disabled" id="submit-btn">Sign Up</button>
               <button type="submit" class="btn btn-primary submit" disabled="disabled" id="submit-btn">Login</button>
+              <button type="submit" class="btn btn-primary submit" disabled="disabled" id="submit-btn">Sign Up</button>
             </form>
           </div>
         </div>
@@ -102,6 +102,7 @@
       // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
       // depending on if a tables is available or not.
 
+      // UPDATE FROM KIM
       app.post('/api/log-in', function(req,res){
         var loginQuery = `SELECT 
                 id,
@@ -117,13 +118,13 @@
             });
     });
 
-        $.post("/api/tables", newTask,
-          function(data) {
+        // $.post("/api/tables", newTask,
+        //   function(data) {
 
-            // Clear the form when submitting
-            $("#user-name").val("");
-            $("#password").val("");
-          });
+        //     // Clear the form when submitting
+        //     $("#user-name").val("");
+        //     $("#password").val("");
+        //   });
       
     } 
     else 
@@ -170,8 +171,8 @@
           listItem.append(
             $("<h2>").text("Login #" + (i + 1)),
             $("<hr>"),
-            $("<h3>").text("Task: " + tableData[i].username),
-              $("<h4>").text("Name: " + tableData[i].password)
+            $("<h3>").text("Username: " + tableData[i].username),
+              $("<h4>").text("Password: " + tableData[i].password)
           );
 
           tableList.append(listItem);
