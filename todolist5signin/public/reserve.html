@@ -43,17 +43,13 @@
           </div>
 
           <div class="card-header">
-            Please enter your first and last name with your assigned password
+            Please enter your username and your password
           </div>
           <div class="card-body">
             <form role="form">
               <div class="form-group">
-                <label for="first-name">First Name</label>
-                <input type="text" class="form-control" id="first-name">
-              </div>
-              <div class="form-group">
-                <label for="last-name">Last Name</label>
-                <input type="text" class="form-control" id="last-name">
+                <label for="user-name">User Name</label>
+                <input type="text" class="form-control" id="user-name">
               </div>
               <div class="form-group">
                 <label for="password">Password:</label>
@@ -89,16 +85,14 @@
   $(".submit").on("click", function(event) {
     event.preventDefault();
 
-    if ($("#first-name").val() !== "") {
+    if ($("#user-name").val() !== "") {
       // Here we grab the form elements
 
       //how to i put an If statement 
       // HOW DO I att the check uncheck 
       const newTask = {
-        firstName: $("#first-name").val().trim(),
-        lastName: $("#last-name").val().trim()
+        username: $("#user-name").val().trim(),
         password: $("#password").val().trim()
-
       };
 
       console.log(newTask);
@@ -108,25 +102,39 @@
       // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
       // depending on if a tables is available or not.
 
+      app.post('/api/log-in', function(req,res){
+        var loginQuery = `SELECT 
+                id,
+                first_name,
+                last_name,
+                TIMESTAMPDIFF(SECOND, created_at, NOW())/88775 AS 'mars'
+            FROM users
+            WHERE username = ? AND password =?;`;
+            connection.query(loginQuery, [req.body.username, req.body.password], function(err, result){
+                if (err) throw err;
+                console.log(`WELCOME BACK, ${result[0].first_name} ${result[0].last_name}.`);
+                res.json(result);
+            });
+    });
+
         $.post("/api/tables", newTask,
           function(data) {
 
             // Clear the form when submitting
-            $("#first-name").val("");
-            $("#last-name").val("");
+            $("#user-name").val("");
             $("#password").val("");
           });
       
     } 
     else 
-    alert ("Please enter name and password...")
+    alert ("Please enter username and password...")
 
   });
 
-  $('#first-name').keyup(function() {
+  $('#user-name').keyup(function() {
 
     var empty = false;
-    $('#first-name').each(function() {
+    $('#user-name').each(function() {
         if ($(this).val().length == 0) {
             empty = true;
         }
@@ -160,10 +168,9 @@
           var listItem = $("<li class='list-group-item mt-4'>");
 
           listItem.append(
-            $("<h2>").text("Table #" + (i + 1)),
+            $("<h2>").text("Login #" + (i + 1)),
             $("<hr>"),
-            $("<h3>").text("Task: " + tableData[i].firstName),
-            $("<h4>").text("Name: " + tableData[i].lastName)
+            $("<h3>").text("Task: " + tableData[i].username),
               $("<h4>").text("Name: " + tableData[i].password)
           );
 

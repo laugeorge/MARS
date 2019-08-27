@@ -7,27 +7,22 @@
 
 var tableArray = [
   {
-    first_name: "george",
-    last_name: "lau",
+    username: "georgelau",
     password: "password"
   },
   {
-    first_name: "chris",
-    last_name: "uranus",
+    username: "chrisuranus",
     password: "password"
   },
   {
-    first_name: "shanekia",
-    last_name: "jones",
+    username: "shanekiajones",
     password: "password"
   },  {
-    first_name: "pooja",
-    last_name: "chauhan",
+    username: "poojachauhan",
     password: "password"
   },
   {
-    first_name: "kim",
-    last_name: "spiegel",
+    username: "kimspiegel",
     password: "password"
   },
 ];
