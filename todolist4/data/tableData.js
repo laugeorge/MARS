@@ -8,32 +8,32 @@
 var tableArray = [
   {
     taskName: "Plant some potato",
-    personToPerform: "Shanekia"
+    user_id: "Shanekia"
   },
 
   {
     taskName: "Plant more potato",
-    personToPerform: "Kim"
+    user_id: "Kim"
 
   },
   {
     taskName: "Send text to Earth",
-    personToPerform: "Chris"
+    user_id: "Chris"
 
   },
   {
     taskName: "Rover maintance",
-    personToPerform: "Pooja"
+    user_id: "Pooja"
 
   },
   {
     taskName: "Dump the trash",
-    personToPerform: "George"
+    user_id: "George"
 
   },
   {
     taskName: "Call parents",
-    personToPerform: "Chris"
+    user_id: "Chris"
 
   }
 

@@ -90,8 +90,11 @@
       //how to i put an If statement 
       // HOW DO I att the check uncheck 
       const newTask = {
-        taskName: $("#task-name").val().trim(),
-        personToPerform: $("#reserve-person").val().trim()
+        // taskName: $("#task-name").val().trim(),
+        // personToPerform: $("#reserve-person").val().trim()
+        user_id: $('#reserve-person').val().trim(),
+        task: $('#task-name').val().trim()
+
 
       };
 
@@ -160,7 +163,8 @@
             $("<h2>").text("Table #" + (i + 1)),
             $("<hr>"),
             $("<h3>").text("Task: " + tableData[i].taskName),
-            $("<h4>").text("Name: " + tableData[i].personToPerform)
+            // $("<h4>").text("Name: " + tableData[i].personToPerform)
+            $("<h4>").text("Name: " + tableData[i].user_id)
 
           );
 

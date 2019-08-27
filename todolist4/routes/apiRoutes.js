@@ -27,7 +27,7 @@ module.exports = function(app) {
     var result = [];
 
     tableData.forEach(function(taskItem){
-      if ((taskItem.personToPerform).toLowerCase() === name) {
+      if ((taskItem.user_id).toLowerCase() === name) {
         result.push(taskItem);
       }
         
