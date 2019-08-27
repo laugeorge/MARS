@@ -7,8 +7,33 @@
 
 var tableArray = [
   {
-    taskName: "George",
-    personToPerform: "ahmed@example.com",
+    taskName: "Plant some potato",
+    personToPerform: "Shanekia"
+  },
+
+  {
+    taskName: "Plant more potato",
+    personToPerform: "Kim"
+
+  },
+  {
+    taskName: "Send text to Earth",
+    personToPerform: "Chris"
+
+  },
+  {
+    taskName: "Rover maintance",
+    personToPerform: "Pooja"
+
+  },
+  {
+    taskName: "Dump the trash",
+    personToPerform: "George"
+
+  },
+  {
+    taskName: "Call parents",
+    personToPerform: "Chris"
 
   }
 ];
