@@ -132,67 +132,60 @@ $.ajax({
 
 
 </script>
-<script src='/public/assets/js/app.js'></script>
-
-<!-- not working yet -->
-<!-- <script src="https://sdk.scdn.co/spotify-player.js"></script>
+<script> src='/public/assets/js/app.js'></script>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
 <script>
-        window.onSpotifyWebPlaybackSDKReady = () => {
-          const token = 'BQCwmUYNEwfytKIXub7kgNg4Tw-R-DKlRgDUOsiHLQRRI0gciBfNrFsMtF7Vd_n9VOQ8r8074A9RfolWyAlrE5OKbfFpiGoPYFQkEhzOi_J1OtVvetURrTpfDSxVTLknYF_PPTrt82vp7fzwtdxVU0lcTKsDDIc7oi4bAabLbRz2e9k2pbXHPj5_';
-          const player = new Spotify.Player({
-            name: 'Web Playback SDK Quick Start Player',
-            getOAuthToken: cb => { cb(token); }
-          });
-    
-          // Error handling
-          player.addListener('initialization_error', ({ message }) => { console.error(message); });
-          player.addListener('authentication_error', ({ message }) => { console.error(message); });
-          player.addListener('account_error', ({ message }) => { console.error(message); });
-          player.addListener('playback_error', ({ message }) => { console.error(message); });
-    
-          // Playback status updates
-          player.addListener('player_state_changed', state => { console.log(state); });
-    
-          // Ready
-          player.addListener('ready', ({ device_id }) => {
-            console.log('Ready with Device ID', device_id);
-          });
-    
-          // Not Ready
-          player.addListener('not_ready', ({ device_id }) => {
-            console.log('Device ID has gone offline', device_id);
-          });
-    
-          // Connect to the player!
-          player.connect();
-        };
-
-        const play = ({
-  spotify_uri,
-  playerInstance: {
-    _options: {
-      getOAuthToken,
-      id
-    }
-  }
-}) => {
-  getOAuthToken(access_token => {
-    fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
-      method: 'PUT',
-      body: JSON.stringify({ uris: [spotify_uri] }),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      },
-    });
+window.onSpotifyWebPlaybackSDKReady = () => {
+  const token = 'BQB-jhNyryIZ96AXBfczgfMOKs_ktc6svnJum9gvHC9xXKsiC7wTkynpK7wQXz2EwiGNfh8RHTu6b-vTR5YCIAzvxYjmhW9HzVw8ionm2mE3XJKwHRihfGvflHrgvwKXL1_Qb1YVIp8hdrwDA8qv9dTshheITRAEZ6m4VV-WMW4nMLCe1BA0O8ce';
+  const player = new Spotify.Player({
+    name: 'Web Playback SDK Quick Start Player',
+    getOAuthToken: cb => { cb(token); }
   });
+
+  // Error handling
+  player.addListener('initialization_error', ({ message }) => { console.error(message); });
+  player.addListener('authentication_error', ({ message }) => { console.error(message); });
+  player.addListener('account_error', ({ message }) => { console.error(message); });
+  player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+  // Playback status updates
+  player.addListener('player_state_changed', state => { console.log(state); });
+
+  // Ready
+  player.addListener('ready', ({ device_id }) => {
+    console.log('Ready with Device ID', device_id);
+  });
+
+  // Not Ready
+  player.addListener('not_ready', ({ device_id }) => {
+    console.log('Device ID has gone offline', device_id);
+  });
+
+  // Connect to the player!
+  player.connect();
 };
 
-play({
-  playerInstance: new Spotify.Player({ name: 'Web Playback SDK Quick Start Player' }),
-  spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
-});
-      </script> -->
+$(document).on("click", "#searchButton", function (event) {
+  //grab the user input
+  let query = $("#searchInput")
+    .val()
+    .trim()
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`'~()]/g, "");
+  $("#searchInput").val("");
+  console.log(query);
+
+var spotifyToken = "BQBrwpg8QogSuzxuR1I3isZocsMJyGhpnWn4wwrnHg1Tu9F28KGN1HFz5SPwyYAF1FsDgrsF19Ie6zh9bmQPgpHBjHSGKzN4tPcwpIlefvgpn3etRHBTAAQtgyqqDhrFkr1r_aHXHG86tnR8WjibatspCrtN0jE25nwLDLAjHuJLJZ4WS5IoLRq5"
+$.ajax({
+    type: "GET",
+    url: "https://api.spotify.com/v1/search?q=" + query + "&type=artist&limit=3",
+    headers: {
+      Authorization: "Bearer " + spotifyToken
+    }
+  }).done(function (res) {
+    console.log(res);
+</script>
+
+
 
 </body>
 

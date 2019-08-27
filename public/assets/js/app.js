@@ -62,7 +62,7 @@ function addToList() {
 
     var brokenThing = {
         task: `fix Curiosity's ${a}`,
-        user_id: 1
+        id: 1
     };
 
     console.log(brokenThing);
