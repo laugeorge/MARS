@@ -50,18 +50,19 @@
                 <h1>Login</h1>
 
                 <label for="email"><b>Username</b></label>
-                <input type="text" placeholder="Enter Email" name="username" required>
+                <input type="text" placeholder="Enter Username" name="username" required>
 
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required>
-
+                <!-- TODO: needs an onclick function -->
                 <button type="submit" class="btn">Login</button>
                 <button type="button" class="btn cancel" onclick="closeFormSignIn()">Close</button>
         </form>
 </div>
 
-<!-- Sign UP HTML -->
-
+<!-- Register HTML -->
+<!-- TODO: We need forms for first name, last name, job title -->
+<!-- TODO: registration logic -->
 <button class="SignUP-button" onclick="openFormSignUp()">Sign Up</button>
 
 <div class="form-popup" id="myFormSignUp">
@@ -75,24 +76,16 @@
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required>
 
-                <label for="psw-repeat"><b>Repeat Password</b></label>
+                <label for="psw-repeat"><b>Reset Password</b></label>
                 <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-
-                <button type="submit" class="btn">Login</button>
+                <!-- TODO: needs an onclick function -->
+                <button type="submit" class="btn">Register</button>
                 <button type="button" class="btn cancel" onclick="closeFormSignUp()">Close</button>
 
         </form>
 </div>
-
-
-
-
-
-
+<!-- TODO: change source -->
 <script src = "app.js"> </script>
-
-
-
 
 </body>
 
