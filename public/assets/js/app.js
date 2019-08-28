@@ -1,5 +1,5 @@
 // ! BE SURE TO MERGE WITHOUT OVERLAPPING
-// Kim starts at 51, Pooja at 85
+// all code starts on 51
 
 
 
@@ -48,65 +48,96 @@
 
 
 
-// // ==================================== KIM'S CODE ============================================//
+//! ================== KIM'S CODE =====================//
 
-// // *              ------------------- CURIOSITY CODE ------------------------                  //
+// *     ---------- SUCCESSFUL LOGIN -----------      //
 
-// var curiosity = ['Mast Camera', 'Chemistry and Camera complex', 'Navigation cameras', 'Antenne UHF', 'RTG', 'Rover Environmental Monitoring Station', 'Hazard avoidance cameras', 'Antenne gran gain', 'Dynamic Albedo of Neutrons', 'Radiation assessment detector', 'Sample Analysis at Mars', 'Dust Removal Tool', 'Chemistry and Mineralogy Spectrometer', 'Mars Hand Lens Imager', 'Alpha Particle X-ray Spectrometer', 'Mars Descent Imager', 'Robotic arm'];
+$(document).ready(function() {
+    // This file just does a GET request to figure out which user is logged in and updates the HTML on the page
+    $.get("/api/user_data").then(function(data) {
+        $('#mission-length').text(data.createdAt);
+    });
+});
 
-// // pick a random thing to break
-// function randRange(rover) {
-//     var whatsBroken = rover[Math.floor(rover.length * Math.random())];
-//     return whatsBroken;
-// }
 
-// function addToList() {
-//     var a = randRange(curiosity);
+// ================================================== //
 
-//     var brokenThing = {
-//         task: `fix Curiosity's ${a}`,
-//         id: 1
-//     };
+// *     ---------- CURIOSITY CODE -------------     //
 
-//     console.log(brokenThing);
+var curiosity = ['Mast Camera', 'Chemistry and Camera complex', 'Navigation cameras', 'Antenne UHF', 'RTG', 'Rover Environmental Monitoring Station', 'Hazard avoidance cameras', 'Antenne gran gain', 'Dynamic Albedo of Neutrons', 'Radiation assessment detector', 'Sample Analysis at Mars', 'Dust Removal Tool', 'Chemistry and Mineralogy Spectrometer', 'Mars Hand Lens Imager', 'Alpha Particle X-ray Spectrometer', 'Mars Descent Imager', 'Robotic arm'];
 
-//     $.ajax('/api/todo', {
-//         type: 'POST',
-//         data: brokenThing
-//     }).then(
-//         function() {
-//             console.log('created new todo');
-//             location.reload();
-//         }
-//     )
+// pick a random thing to break
+function randRange(rover) {
+    var whatsBroken = rover[Math.floor(rover.length * Math.random())];
+    return whatsBroken;
+}
 
-//     setTimeout(addToList, 10000);
-// }
+function randTime(min,max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
 
-// addToList();
+function addToList() {
+    var a = randRange(curiosity);
 
-// // -------------------------------------------------------- //
+    var brokenThing = {
+        user_id: 1,
+        task: `repair ${a}`
+    };
+
+    console.log(brokenThing);
+
+    $.ajax('/api/todo', {
+        type: 'POST',
+        data: brokenThing
+    }).then(
+        function() {
+            console.log('created new todo');
+        }
+    )
+
+    setTimeout(addToList, randTime(50000, 150000));
+}
+
+addToList();
+
+// =================================================== //
 
 // *     ------------ CHAT APP ---------------   //
 
-$.get('/api/chats',function(chats){
-    for(var i=0; i<chats.length; i++){
-        $('#chats').append('<p><b>'+chats[i].full_name+'</b> <small><i>'+chats[i].time+'</i></small></p> <p>'+chats[i].message+'</p><hr style="border: 1px dashed rgba(255, 0, 0, 0.4); margin-left: 10px; margin-right: 10px">');
-    };
+function getChats(){
+    $.get('/api/chats',function(chats){
+        for(var i=0; i<chats.length; i++){
+            $('#chats').append('<p><b>'+chats[i].full_name+'</b> <small><i>'+chats[i].time+'</i></small></p> <p>'+chats[i].message+'</p><hr style="border: 1px dashed rgba(255, 0, 0, 0.4); margin-left: 10px; margin-right: 10px">');
+        };
 
-    $('#chats').append('<form class="form-inline">    <label class="sr-only" for="inlineFormInputName2">Message</label>    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="> Type Message"> <button type="submit" class="btn btn-primary mb-2 chat-submit" onclick="submitChat()">Send Chat</button></form>')
-
-});
-
-function submitChat(){
-    $('.chat-submit').on('click', function(event){
+        $('#chats').append('<form class="form-inline">    <label class="sr-only" for="inlineFormInputName2">Message</label>    <input type="text" class="form-control mb-2 mr-sm-2 chat" id="inlineFormInputName2" placeholder="> Type Message"> <button type="button" class="btn btn-primary mb-2" id="chat-submit" onclick="submitChat()">Send Chat</button></form>')
 
     });
+}
+
+getChats();
+
+function submitChat(){
+    var newChat = {
+        user_id: 4,
+        message: $('.chat').val().trim()
+    };
+
+    console.log(newChat);
+
+    $.ajax('/api/chat', {
+        type: 'POST',
+        data: newChat
+    }).then(
+        function(){
+            console.log('created new chat');
+        }
+    )
 };
 
-// ================================== POOJA CODE =============================================//
+//! ================== POOJA'S CODE ========================//
 
-//* Display NASA Pic of the Day
+//* ----------- Display NASA Pic of the Day ------------//
 var url = "https://api.nasa.gov/planetary/apod?api_key=wubu1AknV9GHmkasgZcqPrAx1T6mI7G3bq9DNbqh";
 
 
@@ -139,3 +170,5 @@ $.ajax({
     }
 
 });
+
+// ==================================================== //

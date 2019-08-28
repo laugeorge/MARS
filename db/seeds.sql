@@ -1,9 +1,9 @@
 -- INSERT ROVER
-INSERT INTO users(first_name, username, created_at) VALUES
-('Curiosity', 'Curiosity', '2012-08-06 05:17:00');
+INSERT INTO users(first_name, username, password, createdAt) VALUES
+('Curiosity', 'Curiosity', 'rover', '2012-08-06 05:17:00');
 
 -- USERS 
-INSERT INTO users(first_name, last_name, username, password, job_title, created_at) VALUES
+INSERT INTO users(first_name, last_name, username, password, job_title, createdAt) VALUES
 ('Chris','Hubbard','NeoParadigm84','1234','Engineer', '2018-04-01 13:00:00'),
 ('George','Lau','George_Lau','1111','Mechanic', '2018-04-01 13:00:00'),
 ('Kim','Spiegel','kimSpiegel04','password','Specialist', '2018-04-01 13:00:00'),
