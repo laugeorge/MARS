@@ -64,7 +64,7 @@
 					<div class="col-sm-3">
 						<div class="panel panel-default">
 							<div class="panel-heading text-center ">
-								<h3>My Music</h3>
+								<h3>My Mood: </h3><input class="form-control" id="searchInput" type="text" name="mood"><button id="searchButton">Play Music</button>
 								<h1> Play Metalica</h1>
 							</div>
 						</div>
@@ -103,5 +103,114 @@
 
 </body>
 <script src='../assets/js/app.js'></script>
+
+
+<script>
+var urlWeather = "http://dataservice.accuweather.com/currentconditions/v1/77058?apikey=A2q45Pne14MzGjNau4fCfDeGds0zGUM5";
+$.ajax({
+        url: urlWeather,
+        method: "GET"
+        
+}).done(function(response){
+        console.log(response);
+        var currWeather = response[0].Temperature.Imperial.Value;
+        var conditons = response[0].WeatherText;
+        console.log(conditons);
+        console.log(currWeather);
+        $("#temp").append(currWeather);
+        $("#condition").append(conditons);
+})
+</script>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+
+<script>
+window.onSpotifyWebPlaybackSDKReady = () => {
+  const token = "BQCPHL6j3_VatKm7AQco1pRGD8P8mikL9j0e2yjFZfIh_0CyqLENmdl7vpy1MYvuDYh_Dqfa3iNJpHAtudw8DprhutQP1ExZ5KvLz0Qr6worarq1i-2jQx6t9uynRbHTgIQdRaasrODF5XPAtv3ZGBbHHtouPmkSuV0cEJjYb_Nv3Cx3pdUMATmB";
+  const player = new Spotify.Player({
+    name: 'Web Playback SDK Quick Start Player',
+    getOAuthToken: cb => { cb(token); }
+  });
+
+  // Error handling
+  player.addListener('initialization_error', ({ message }) => { console.error(message); });
+  player.addListener('authentication_error', ({ message }) => { console.error(message); });
+  player.addListener('account_error', ({ message }) => { console.error(message); });
+  player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+  // Playback status updates
+  player.addListener('player_state_changed', state => { console.log(state); });
+
+  // Ready
+  player.addListener('ready', ({ device_id }) => {
+    console.log('Ready with Device ID', device_id);
+  });
+
+  // Not Ready
+  player.addListener('not_ready', ({ device_id }) => {
+    console.log('Device ID has gone offline', device_id);
+  });
+
+  $(document).on("click", "#searchButton", function (event) {
+  //grab the user input
+  var query = $("#searchInput")
+    .val()
+    .trim()
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`'~()]/g, "");
+  $("#searchInput").val("");
+  console.log(query);
+
+var spotifyToken = "BQCPHL6j3_VatKm7AQco1pRGD8P8mikL9j0e2yjFZfIh_0CyqLENmdl7vpy1MYvuDYh_Dqfa3iNJpHAtudw8DprhutQP1ExZ5KvLz0Qr6worarq1i-2jQx6t9uynRbHTgIQdRaasrODF5XPAtv3ZGBbHHtouPmkSuV0cEJjYb_Nv3Cx3pdUMATmB"
+$.ajax({
+    type: "GET",
+    url: "https://api.spotify.com/v1/browse/categories/" + query + "/playlists?country=US&limit=2",
+    headers: {
+      Authorization: "Bearer " + spotifyToken
+    }
+  }).then(function (res) {
+    console.log(res);
+    var mood = res.playlists.items[0].uri
+    console.log(mood);
+
+const play = ({
+  spotify_uri,
+  playerInstance: {
+    _options: {
+      getOAuthToken,
+      id
+    }
+  }
+}) => {
+  getOAuthToken(access_token => {
+    fetch(`https://api.spotify.com/v1/me/player/play`, {
+      method: 'PUT',
+      body: JSON.stringify({ uris: [spotify_uri] }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: "Bearer" + spotifyToken
+      },
+    });
+  });
+};
+play({
+        playerInstance: player,
+        spotify_uri: mood,
+});
+
+
+
+});
+
+      
+    });
+
+  // Connect to the player!
+  player.connect();
+
+};
+
+
+</script>
+
+
 
 </html>
