@@ -1,7 +1,7 @@
 {
   "name": "mars",
   "version": "1.0.0",
-  "description": "",
+  "description": "Mad Ass Ranger Spacing",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -33,5 +33,6 @@
     "sequelize": "^5.16.0",
     "sequelize-cli": "^5.5.0",
     "sqlite3": "^4.1.0"
-  }
+  },
+  "devDependencies": {}
 }

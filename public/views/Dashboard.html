@@ -130,7 +130,7 @@ $.ajax({
 
 <script>
 window.onSpotifyWebPlaybackSDKReady = () => {
-  const token = "BQCPHL6j3_VatKm7AQco1pRGD8P8mikL9j0e2yjFZfIh_0CyqLENmdl7vpy1MYvuDYh_Dqfa3iNJpHAtudw8DprhutQP1ExZ5KvLz0Qr6worarq1i-2jQx6t9uynRbHTgIQdRaasrODF5XPAtv3ZGBbHHtouPmkSuV0cEJjYb_Nv3Cx3pdUMATmB";
+  const token = "BQDDJ3xKfTDFDWu0FunobV86YOzQ3p6v0SbcBvmjC2Unti1Ikk1njWELeysYdJmB80ZTx962n7THUMfHWDYYokBJtawOHPCDK4Qhkut9PEFubJcdwyp0MCuPf5XhPhKG7P28jgUZoWPKNMKVz6-KMAsOi5RXjt8apiwtfh_27okOu94RDfbOn38F";
   const player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
     getOAuthToken: cb => { cb(token); }
@@ -164,7 +164,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
   $("#searchInput").val("");
   console.log(query);
 
-var spotifyToken = "BQCPHL6j3_VatKm7AQco1pRGD8P8mikL9j0e2yjFZfIh_0CyqLENmdl7vpy1MYvuDYh_Dqfa3iNJpHAtudw8DprhutQP1ExZ5KvLz0Qr6worarq1i-2jQx6t9uynRbHTgIQdRaasrODF5XPAtv3ZGBbHHtouPmkSuV0cEJjYb_Nv3Cx3pdUMATmB"
+var spotifyToken = "BQDDJ3xKfTDFDWu0FunobV86YOzQ3p6v0SbcBvmjC2Unti1Ikk1njWELeysYdJmB80ZTx962n7THUMfHWDYYokBJtawOHPCDK4Qhkut9PEFubJcdwyp0MCuPf5XhPhKG7P28jgUZoWPKNMKVz6-KMAsOi5RXjt8apiwtfh_27okOu94RDfbOn38F"
 $.ajax({
     type: "GET",
     url: "https://api.spotify.com/v1/browse/categories/" + query + "/playlists?country=US&limit=2",
