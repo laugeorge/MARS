@@ -1,3 +1,7 @@
+-- INSERT ROVER
+INSERT INTO users(first_name, username, created_at) VALUES
+('Curiosity', 'Curiosity', '2012-08-06 05:17:00');
+
 -- USERS 
 INSERT INTO users(first_name, last_name, username, password, job_title, created_at) VALUES
 ('Chris','Hubbard','NeoParadigm84','1234','Engineer', '2018-04-01 13:00:00'),
