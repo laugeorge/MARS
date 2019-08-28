@@ -171,7 +171,6 @@ function addToList() {
     setTimeout(addToList, 60000);
 
 }
-
 addToList();
 
 // ============================== UPDATE FROM GEORGE; KIMS CODE =======================//
