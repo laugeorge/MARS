@@ -92,9 +92,8 @@
       const newTask = {
         // taskName: $("#task-name").val().trim(),
         // personToPerform: $("#reserve-person").val().trim()
-        user_id: $('#reserve-person').val().trim(),
-        task: $('#task-name').val().trim()
-
+        user_id: $("#reserve-person").val().trim(),
+        taskName: $("#task-name").val().trim()
 
       };
 
@@ -113,10 +112,6 @@
             $("#reserve-person").val("");
           });
       
-      //UPDATE1 Task to fade out
-      $(document).on('dblclick','li', function(){
-          $(this).toggleClass('strike').fadeOut('slow');    
-        });
     } 
     else 
     alert ("Please enter task...")

@@ -1,5 +1,8 @@
 var connection = require('../config/connection.js');
 
+// UPDATE FROM GEORGE, ADDING DATA FOLDER WITH tableData
+var tableData = require("../config/tableData");
+
 module.exports = function(app) {
 
     // *=========================== USERS =============================== //
@@ -45,70 +48,124 @@ module.exports = function(app) {
 
     // Get todos
     // EXAMPLE TO GET ID=?  localhost:8080/api/todos?id=1234
+    // ===========================GEORGE CODE ====================================================//
 
-    app.get('/api/todos', function(req,res){
-        var todoQuery = `SELECT 
-                todo.id,
-                task,
-                username,
-                completed
-        FROM todo
-            LEFT JOIN users
-                ON users.id = todo.user_id
-            WHERE users.id=1 OR users.id=?;`;
+    // UPDATE FROM GEORGE: MAYBE WE DO NOT NEED THIS.
+    //var tableData = require("../data/tableData");
 
-        connection.query(todoQuery, req.query.id, function(err, todos){
-            if (err) throw err;
-            console.log('USER TODOS:');
-            for(var i=0; i<todos.length; i++){
-                console.log(`Task ${todos[i].id}: ${todos[i].task}
-                            Completed: ${todos[i].completed}
-                            Assigned by: ${todos[i].username}`);
-            }
-            res.json(todos);
-        });
+// ===============================================================================
+// ROUTING
+// ===============================================================================
+
+// UPDATE FROM GEORGE: MAYBE WE DO NOT NEED THIS, DECLEARED UPSTAIRS
+// module.exports = function(app) {
+  // API GET Requests
+  // Below code handles when users "visit" a page.
+  // In each of the below cases when a user visits a link
+  // (ex: localhost:PORT/api/admin... they are shown a JSON of the data in the table)
+  // ---------------------------------------------------------------------------
+
+  app.get("/api/tables", function(req, res) {
+    res.json(tableData);
+  });
+
+  app.get("/api/tables/:name", function(req, res) {
+    var name = req.params.name;
+    var result = [];
+
+    tableData.forEach(function(taskItem){
+      if ((taskItem.user_id).toLowerCase() === name) {
+        result.push(taskItem);
+      }
+        
     });
 
-    // =============================================================== //
+    res.json(result)
 
-    // Check off todo list
+  });
 
-    app.put('/api/todo/:id', function(req,res){
-        var todoChecked = `UPDATE todo SET completed=1 WHERE id=?;`;
-        connection.query(todoChecked, req.params.id, function(err, result){
-            if(err) throw err;
-        });
-    });
+  // API POST Requests
+  // Below code handles when a user submits a form and thus submits data to the server.
+  // In each of the below cases, when a user submits form data (a JSON object)
+  // ...the JSON is pushed to the appropriate JavaScript array
+  // (ex. User fills out a reservation request... this data is then sent to the server...
+  // Then the server saves the data to the tableData array)
+  // ---------------------------------------------------------------------------
 
-    // =============================================================== //
+  app.post("/api/tables", function(req, res) {
+    // Note the code here. Our "server" will respond to requests and let users know if they have a table or not.
+    // It will do this by sending out the value "true" have a table
+    // req.body is available since we're using the body parsing middleware
+    // if (tableData.length < 5) {
+      tableData.push(req.body);
+      res.json(true);
+  });
 
-    // New todo
-    // TODO: F.E.: RELOAD PAGE TO DISPLAY NEW TODO
 
-    app.post('/api/todo', function(req,res){
-        var newTodo = {
-            user_id: req.body.user_id,
-            task: req.body.task
-        }
-        var addTodoQuery = 'INSERT INTO todo SET ?;';
-        connection.query(addTodoQuery, newTodo, function(err, result){
-            if (err) throw err;
-            res.end();
-        });
-    });
+    //============================KIMS CODE=======================================================//
+    // app.get('/api/todos', function(req,res){
+    //     var todoQuery = `SELECT 
+    //             todo.id,
+    //             task,
+    //             username,
+    //             completed
+    //     FROM todo
+    //         LEFT JOIN users
+    //             ON users.id = todo.user_id
+    //         WHERE users.id=1 OR users.id=?;`;
 
-    // =============================================================== //
+    //     connection.query(todoQuery, req.query.id, function(err, todos){
+    //         if (err) throw err;
+    //         console.log('USER TODOS:');
+    //         for(var i=0; i<todos.length; i++){
+    //             console.log(`Task ${todos[i].id}: ${todos[i].task}
+    //                         Completed: ${todos[i].completed}
+    //                         Assigned by: ${todos[i].username}`);
+    //         }
+    //         res.json(todos);
+    //     });
+    // });
 
-    // Delete todo
-    // TODO: F.E.: RELOAD FOR NEW TODO LIST
+    // // =============================================================== //
 
-    app.delete('/api/todo/:id', function(req,res){
-        var deleteTodo = `DELETE FROM todo WHERE id=?;`;
-        connection.query(deleteTodo, req.params.id, function(err, results){
-            if(err) throw err;
-            res.end();
-        });
-    });
+    // // Check off todo list
+
+    // app.put('/api/todo/:id', function(req,res){
+    //     var todoChecked = `UPDATE todo SET completed=1 WHERE id=?;`;
+    //     connection.query(todoChecked, req.params.id, function(err, result){
+    //         if(err) throw err;
+    //     });
+    // });
+
+    // // =============================================================== //
+
+    // // New todo
+    // // TODO: F.E.: RELOAD PAGE TO DISPLAY NEW TODO
+
+    // app.post('/api/todo', function(req,res){
+    //     var newTodo = {
+    //         user_id: req.body.user_id,
+    //         task: req.body.task
+    //     }
+    //     var addTodoQuery = 'INSERT INTO todo SET ?;';
+    //     connection.query(addTodoQuery, newTodo, function(err, result){
+    //         if (err) throw err;
+    //         res.end();
+    //     });
+    // });
+
+    // // =============================================================== //
+
+    // // Delete todo
+    // // TODO: F.E.: RELOAD FOR NEW TODO LIST
+
+    // app.delete('/api/todo/:id', function(req,res){
+    //     var deleteTodo = `DELETE FROM todo WHERE id=?;`;
+    //     connection.query(deleteTodo, req.params.id, function(err, results){
+    //         if(err) throw err;
+    //         res.end();
+    //     });
+    // });
 
     // *========================= CHATS ================================= //
 
