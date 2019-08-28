@@ -59,14 +59,20 @@
 </div>
 
 <!-- Register HTML -->
-<!-- TODO: We need forms for first name, last name, job title -->
 <!-- TODO: registration logic -->
 <button class="SignUP-button" onclick="openFormSignUp()">Sign Up</button>
 
 <div class="form-popup" id="myFormSignUp">
         <form action="/action_page.php" class="form-container">
                 <h1>Sign up</h1>
+                <label for="first_name"><b>First Name</b></label>
+                <input type="text" placeholder="First Name" name="first_name" required>
 
+                <label for="last_name"><b>Last Name</b></label>
+                <input type="text" placeholder="Last Name" name="last_name" required>
+
+                <label for="job_title"><b>Job Title</b></label>
+                <input type="text" placeholder="Job Title" name="job_title" required>
 
                 <label for="uname"><b>Username</b></label>
                 <input type="text" placeholder="Enter Username" name="uname" required>
@@ -82,8 +88,9 @@
 
         </form>
 </div>
-<!-- TODO: change source -->
-<script src = "app.js"> </script>
+
+<script src = "../assets/js/signIn.js"> </script>
+
 
 </body>
 
