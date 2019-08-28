@@ -50,7 +50,7 @@ module.exports = function(app) {
     // EXAMPLE TO GET ID=?  localhost:8080/api/todos?id=1234
     // ===========================GEORGE CODE ====================================================//
 
-    // UPDATE FROM GEORGE: MAYBE WE DO NOT NEED THIS.
+    // UPDATE FROM GEORGE: MAYBE WE DO NOT NEED THIS MOVE TO ABOVE LINE 3,4.
     //var tableData = require("../data/tableData");
 
 // ===============================================================================
@@ -171,40 +171,40 @@ module.exports = function(app) {
 
     // Get chats
 
-    app.get('/api/chats', function(req,res){
-        var chatQuery = `SELECT 
-                    message, 
-                    username AS 'name', 
-                    CONCAT(first_name, ' ', last_name) AS 'full_name',
-                    DATE_FORMAT(chat.created_at, "%m/%d/%Y %H:%i") AS 'time'
-                FROM chat
-                LEFT JOIN users
-                    ON chat.user_id = users.id
-                ORDER BY time DESC;`;
-        connection.query(chatQuery, function(err,chats){
-            for(var i=0; i<chats.length; i++){
-                console.log(`MESSAGE: ${chats[i].message} USER: ${chats[i].name} TIME: ${chats[i].time}`);
-            }
-            res.json(chats);
-        });
-    });
+    // app.get('/api/chats', function(req,res){
+    //     var chatQuery = `SELECT 
+    //                 message, 
+    //                 username AS 'name', 
+    //                 CONCAT(first_name, ' ', last_name) AS 'full_name',
+    //                 DATE_FORMAT(chat.created_at, "%m/%d/%Y %H:%i") AS 'time'
+    //             FROM chat
+    //             LEFT JOIN users
+    //                 ON chat.user_id = users.id
+    //             ORDER BY time DESC;`;
+    //     connection.query(chatQuery, function(err,chats){
+    //         for(var i=0; i<chats.length; i++){
+    //             console.log(`MESSAGE: ${chats[i].message} USER: ${chats[i].name} TIME: ${chats[i].time}`);
+    //         }
+    //         res.json(chats);
+    //     });
+    // });
 
-    // =============================================================== //
+    // // =============================================================== //
 
-    // New chat
-    // TODO: F.E.: RELOAD PAGE TO DISPLAY NEW CHAT
+    // // New chat
+    // // TODO: F.E.: RELOAD PAGE TO DISPLAY NEW CHAT
 
-    app.post('/api/chat', function(req,res){
-        var newChat = {
-            user_id: req.body.user_id,
-            message: req.body.message
-        }
-        var addChatQuery = 'INSERT INTO chat SET ?;';
-        connection.query(addChatQuery, newChat, function(err, result){
-            if (err) throw err;
-            res.end();
-        });
-    });
+    // app.post('/api/chat', function(req,res){
+    //     var newChat = {
+    //         user_id: req.body.user_id,
+    //         message: req.body.message
+    //     }
+    //     var addChatQuery = 'INSERT INTO chat SET ?;';
+    //     connection.query(addChatQuery, newChat, function(err, result){
+    //         if (err) throw err;
+    //         res.end();
+    //     });
+    // });
 
 
 };

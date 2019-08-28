@@ -11,6 +11,7 @@ module.exports = function(app) {
     });
 
 //-----------------GEORGE UPDATE-------------------------------//
+// ---------------- ADD tables.html ------------------------// 
     app.get("/tables", function(req, res) {
         res.sendFile(path.join(__dirname, "../public/views/tables.html"));
       });
