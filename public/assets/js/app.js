@@ -93,8 +93,16 @@ $.get('/api/chats',function(chats){
     for(var i=0; i<chats.length; i++){
         $('#chats').append('<p><b>'+chats[i].full_name+'</b> <small><i>'+chats[i].time+'</i></small></p> <p>'+chats[i].message+'</p><hr style="border: 1px dashed rgba(255, 0, 0, 0.4); margin-left: 10px; margin-right: 10px">');
     };
+
+    $('#chats').append('<form class="form-inline">    <label class="sr-only" for="inlineFormInputName2">Message</label>    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="> Type Message"> <button type="submit" class="btn btn-primary mb-2 chat-submit" onclick="submitChat()">Send Chat</button></form>')
+
 });
 
+function submitChat(){
+    $('.chat-submit').on('click', function(event){
+
+    });
+};
 
 // ================================== POOJA CODE =============================================//
 
