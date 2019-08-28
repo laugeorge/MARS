@@ -55,7 +55,10 @@
 $(document).ready(function() {
     // This file just does a GET request to figure out which user is logged in and updates the HTML on the page
     $.get("/api/user_data").then(function(data) {
-        $('#mission-length').text(data.createdAt);
+        $("#username").text(data.username);
+        $('#first_name').text(data.first_name);
+        $('#last_name').text(data.last_name);
+        $('#jobtitle').text(data.job_title);
     });
 });
 

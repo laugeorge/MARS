@@ -4,7 +4,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
-    User = require('./models/user');
+    User = require('./models/user'),
+    env = require('dotenv');
 
 // Sets up the Express App
 var app = express();
@@ -19,11 +20,12 @@ var db = require("./models");
 app.use(express.static("public"));
 
 // Sets up the Express app to handle data parsing
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
+app.use(bodyParser.json());
 
 // Use sessions to keep track of user's login status
-app.use(session({ secret: "They want the moon I'm on Mars", resave: false, saveUninitialized: false }));
+app.use(session({ secret: "They want the moon I'm on Mars", resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
