@@ -118,7 +118,7 @@ module.exports = function(app) {
         var chatQuery = `SELECT 
                     message, 
                     username AS 'name', 
-                    CONCAT(first_name, ' ', last_name) AS 'full name',
+                    CONCAT(first_name, ' ', last_name) AS 'full_name',
                     DATE_FORMAT(chat.created_at, "%m/%d/%Y %H:%i") AS 'time'
                 FROM chat
                 LEFT JOIN users

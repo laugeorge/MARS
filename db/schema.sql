@@ -21,6 +21,16 @@ CREATE TABLE todo (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+<<<<<<< HEAD
+create table active (
+       todo_id int not null,
+		user_id int not null,
+        foreign key (todo_id) references todo(id),
+		foreign key (user_id) references users(id),
+        primary key (todo_id, user_id)
+);
+         
+=======
 
 CREATE TABLE chat (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,3 +39,4 @@ CREATE TABLE chat (
     created_at TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+>>>>>>> e8e5d9591e8652bb066857276dcd537c768e9cdc
