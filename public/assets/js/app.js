@@ -1,5 +1,5 @@
 // ! BE SURE TO MERGE WITHOUT OVERLAPPING
-// Kim starts at 51, Pooja at 85
+// all code starts on 51
 
 
 
@@ -48,44 +48,47 @@
 
 
 
-// // ==================================== KIM'S CODE ============================================//
+// ================== KIM'S CODE =====================//
 
-// // *              ------------------- CURIOSITY CODE ------------------------                  //
+// *     ---------- CURIOSITY CODE -------------     //
 
-// var curiosity = ['Mast Camera', 'Chemistry and Camera complex', 'Navigation cameras', 'Antenne UHF', 'RTG', 'Rover Environmental Monitoring Station', 'Hazard avoidance cameras', 'Antenne gran gain', 'Dynamic Albedo of Neutrons', 'Radiation assessment detector', 'Sample Analysis at Mars', 'Dust Removal Tool', 'Chemistry and Mineralogy Spectrometer', 'Mars Hand Lens Imager', 'Alpha Particle X-ray Spectrometer', 'Mars Descent Imager', 'Robotic arm'];
+var curiosity = ['Mast Camera', 'Chemistry and Camera complex', 'Navigation cameras', 'Antenne UHF', 'RTG', 'Rover Environmental Monitoring Station', 'Hazard avoidance cameras', 'Antenne gran gain', 'Dynamic Albedo of Neutrons', 'Radiation assessment detector', 'Sample Analysis at Mars', 'Dust Removal Tool', 'Chemistry and Mineralogy Spectrometer', 'Mars Hand Lens Imager', 'Alpha Particle X-ray Spectrometer', 'Mars Descent Imager', 'Robotic arm'];
 
-// // pick a random thing to break
-// function randRange(rover) {
-//     var whatsBroken = rover[Math.floor(rover.length * Math.random())];
-//     return whatsBroken;
-// }
+// pick a random thing to break
+function randRange(rover) {
+    var whatsBroken = rover[Math.floor(rover.length * Math.random())];
+    return whatsBroken;
+}
 
-// function addToList() {
-//     var a = randRange(curiosity);
+function randTime(min,max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
 
-//     var brokenThing = {
-//         task: `fix Curiosity's ${a}`,
-//         id: 1
-//     };
+function addToList() {
+    var a = randRange(curiosity);
 
-//     console.log(brokenThing);
+    var brokenThing = {
+        user_id: 1,
+        task: `repair ${a}`
+    };
 
-//     $.ajax('/api/todo', {
-//         type: 'POST',
-//         data: brokenThing
-//     }).then(
-//         function() {
-//             console.log('created new todo');
-//             location.reload();
-//         }
-//     )
+    console.log(brokenThing);
 
-//     setTimeout(addToList, 10000);
-// }
+    $.ajax('/api/todo', {
+        type: 'POST',
+        data: brokenThing
+    }).then(
+        function() {
+            console.log('created new todo');
+        }
+    )
 
-// addToList();
+    setTimeout(addToList, randTime(50000, 150000));
+}
 
-// // -------------------------------------------------------- //
+addToList();
+
+// =================================================== //
 
 // *     ------------ CHAT APP ---------------   //
 
@@ -104,9 +107,9 @@ function submitChat(){
     });
 };
 
-// ================================== POOJA CODE =============================================//
+// ================== POOJA CODE ========================//
 
-//* Display NASA Pic of the Day
+//* ----------- Display NASA Pic of the Day ------------//
 var url = "https://api.nasa.gov/planetary/apod?api_key=wubu1AknV9GHmkasgZcqPrAx1T6mI7G3bq9DNbqh";
 
 
@@ -139,3 +142,5 @@ $.ajax({
     }
 
 });
+
+// ==================================================== //
