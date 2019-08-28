@@ -139,38 +139,37 @@ $(".submit").on("click", function(event) {
 // // *              ------------------- CURIOSITY CODE ------------------------                  //
 
 //***************************** UPDATE FROM GEORGE *****************//
-var curiosity = ['Mast Camera', 'Chemistry and Camera complex', 'Navigation cameras', 'Antenne UHF', 'RTG', 'Rover Environmental Monitoring Station', 'Hazard avoidance cameras', 'Antenne gran gain', 'Dynamic Albedo of Neutrons', 'Radiation assessment detector', 'Sample Analysis at Mars', 'Dust Removal Tool', 'Chemistry and Mineralogy Spectrometer', 'Mars Hand Lens Imager', 'Alpha Particle X-ray Spectrometer', 'Mars Descent Imager', 'Robotic arm'];
+// var curiosity = ['Mast Camera', 'Chemistry and Camera complex', 'Navigation cameras', 'Antenne UHF', 'RTG', 'Rover Environmental Monitoring Station', 'Hazard avoidance cameras', 'Antenne gran gain', 'Dynamic Albedo of Neutrons', 'Radiation assessment detector', 'Sample Analysis at Mars', 'Dust Removal Tool', 'Chemistry and Mineralogy Spectrometer', 'Mars Hand Lens Imager', 'Alpha Particle X-ray Spectrometer', 'Mars Descent Imager', 'Robotic arm'];
 
-// pick a random thing to break
-function randRange(rover) {
-    var whatsBroken = rover[Math.floor(rover.length * Math.random())];
-    return whatsBroken;
-}
+// // pick a random thing to break
+// function randRange(rover) {
+//     var whatsBroken = rover[Math.floor(rover.length * Math.random())];
+//     return whatsBroken;
+// }
 
 
-function addToList() {
-    var a = randRange(curiosity);
+// function addToList() {
+//     var a = randRange(curiosity);
 
-//********* UPDATE FROM GEORGE: IS THIS user_id:1, not id:1 ********//
-    var brokenThing = {
-        taskName: `fix Curiosity's ${a}`,
-        user_id: 1
-    };
+// //********* UPDATE FROM GEORGE: IS THIS user_id:1, not id:1 ********//
+//     var brokenThing = {
+//         taskName: `fix Curiosity's ${a}`,
+//         user_id: 1
+//     };
 
-    console.log(brokenThing);
+//     console.log(brokenThing);
 
-    $.ajax('/api/tables', {
-        type: 'POST',
-        data: brokenThing
-    }).then(
-        function() {
-            console.log('created new todo');
-            // location.reload();
-        }
-    )
-    setTimeout(addToList, 60000);
+//     $.ajax('/api/tables', {
+//         type: 'POST',
+//         data: brokenThing
+//     }).then(
+//         function() {
+//             console.log('created new todo');
+//             // location.reload();
+//         }
+//     )
+//     setTimeout(addToList, 60000);
 
-<<<<<<< HEAD
 //! ================== KIM'S CODE =====================//
 
 // *     ---------- SUCCESSFUL LOGIN -----------      //
@@ -182,31 +181,12 @@ $(document).ready(function() {
     });
 });
 
-=======
-}
-addToList();
-
-// ============================== UPDATE FROM GEORGE; KIMS CODE =======================//
-// var curiosity = ['Mast Camera', 'Chemistry and Camera complex', 'Navigation cameras', 'Antenne UHF', 'RTG', 'Rover Environmental Monitoring Station', 'Hazard avoidance cameras', 'Antenne gran gain', 'Dynamic Albedo of Neutrons', 'Radiation assessment detector', 'Sample Analysis at Mars', 'Dust Removal Tool', 'Chemistry and Mineralogy Spectrometer', 'Mars Hand Lens Imager', 'Alpha Particle X-ray Spectrometer', 'Mars Descent Imager', 'Robotic arm'];
->>>>>>> george
 
 // ================================================== //
 
-<<<<<<< HEAD
 // *     ---------- CURIOSITY CODE -------------     //
 
 var curiosity = ['Mast Camera', 'Chemistry and Camera complex', 'Navigation cameras', 'Antenne UHF', 'RTG', 'Rover Environmental Monitoring Station', 'Hazard avoidance cameras', 'Antenne gran gain', 'Dynamic Albedo of Neutrons', 'Radiation assessment detector', 'Sample Analysis at Mars', 'Dust Removal Tool', 'Chemistry and Mineralogy Spectrometer', 'Mars Hand Lens Imager', 'Alpha Particle X-ray Spectrometer', 'Mars Descent Imager', 'Robotic arm'];
-=======
-
-// function addToList() {
-//     var a = randRange(curiosity);
-
-// ********* UPDATE FROM GEORGE: IS THIS user_id:1, not id:1 ********//
-//     var brokenThing = {
-//         task: `fix Curiosity's ${a}`,
-//         id: 1
-//     };
->>>>>>> george
 
 // pick a random thing to break
 function randRange(rover) {
@@ -223,12 +203,12 @@ function addToList() {
 
     var brokenThing = {
         user_id: 1,
-        task: `repair ${a}`
+        taskName: `repair ${a}`
     };
 
     console.log(brokenThing);
 
-    $.ajax('/api/todo', {
+    $.ajax('/api/tables', {
         type: 'POST',
         data: brokenThing
     }).then(
@@ -312,5 +292,3 @@ $.ajax({
     }
 
 });
-
-// ==================================================== //
